@@ -5,13 +5,14 @@ import debug from 'debug';
 const debugDb = debug('app:Database')
 
 let _db = null;
+let _client = null;
 
 async function connect() {
   if (!_db) {
     const dbUrl = process.env.DB_URL;
     const dbName = process.env.DB_NAME;
-    const client = await MongoClient.connect(dbUrl)
-    _db = client.db(dbName);
+    _client = await MongoClient.connect(dbUrl)
+    _db = _client.db(dbName);
     debugDb('connected.')
   }
   return _db;
@@ -36,6 +37,13 @@ async function getAccountByUsername(username) {
 
 async function getAccounts() {
   const db = await connect()
-  return db.collection('Accounts').find().toArray();
+  return db.collection('user').find().toArray();
 }
-export { registerUser, getAccountByEmail, getAccountByUsername, getAccounts }
+
+async function getClient(){ 
+  if (!_client){
+    await connect();
+  }
+  return _client;
+}
+export { registerUser, getAccountByEmail, getAccountByUsername, getAccounts, getClient, connect }

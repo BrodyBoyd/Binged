@@ -93,8 +93,8 @@ export default function Discover() {
             </div>
             <div className="nav-links">
               <Link to="/" className="nav-link">Home</Link>
-              <Link to="/discover" className="nav-link">Discover</Link>
-              <a href="#" className="nav-link">Lists</a>
+              <Link to="/discover" className="nav-link activeLink">Discover</Link>
+              <Link to="/MyLists" className="nav-link">Lists</Link>
               <a href="#" className="nav-link">Reviews</a>
             </div>
             <div className="auth-buttons">

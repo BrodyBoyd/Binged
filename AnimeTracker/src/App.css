@@ -87,6 +87,9 @@ body {
   display: flex;
   gap: 2rem;
 }
+.nav-link && .activeLink {
+  color: #ff0000;
+}
 
 .nav-link {
   color: var(--muted-foreground);
@@ -331,7 +334,13 @@ section {
   background: linear-gradient(135deg, var(--background) 0%, #1a1a2e 100%);
   padding: 2rem 0;
   margin: 0; /* ensure no default body margin leaves a gap */
-
+  }
+  .allListsPage {
+    min-height: 100vh; /* fill full viewport height */
+  width: 100vw;      /* fill full viewport width */
+  background: linear-gradient(135deg, var(--background) 0%, #1a1a2e 100%);
+  padding: 2rem 0;
+  margin: 0; 
   }
 .search-container {
   display: flex;

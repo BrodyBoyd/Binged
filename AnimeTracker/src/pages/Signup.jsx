@@ -15,9 +15,7 @@ export default function Signup() {
           <div className="nav-links">
             <Link to="/" className="nav-link">Home</Link>
             <Link to="/discover" className="nav-link">Discover</Link>
-            <a href="#" className="nav-link">
-              Lists
-            </a>
+            <Link to="/MyLists" className="nav-link">Lists</Link>
             <a href="#" className="nav-link">
               Reviews
             </a>

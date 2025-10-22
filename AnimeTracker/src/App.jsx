@@ -6,6 +6,7 @@ import Discover from "./pages/Discover"
 import Signup from "./pages/Signup"
 import ShowPage from "./pages/ShowPage"
 import Signin from "./pages/Signin"
+import Lists from "./pages/MyLists"
 
 function Home({
   searchQuery,
@@ -28,9 +29,9 @@ function Home({
               <h1>Binged</h1>
             </div>
             <div className="nav-links">
-              <Link to="/" className="nav-link">Home</Link>
+              <Link to="/" className="nav-link activeLink">Home</Link>
               <Link to="/discover" className="nav-link">Discover</Link>
-              <a href="#" className="nav-link">Lists</a>
+              <Link to="/MyLists" className="nav-link">Lists</Link>
               <a href="#" className="nav-link">Reviews</a>
             </div>
             <div className="auth-buttons">
@@ -231,6 +232,7 @@ function App() {
         />
       } />
       <Route path="/show" element={<ShowPage />} />
+      <Route path="/MyLists" element={<Lists />} />
       <Route path="/discover" element={<Discover />} />
       <Route path="/signup" element={<Signup />} />
       <Route path="/signin" element={<Signin />} />
