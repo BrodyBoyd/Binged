@@ -1,8 +1,46 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { authClient } from "../auth-client.js";
+import { useNavigate } from "react-router-dom";
 
-export default function Signin() {
 
+
+
+export default function Signin({setUser}) {
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [errorMessage, setErrorMessage] = useState("")
+  const navigate = useNavigate();
+
+  async function getUser(userId) {
+    const res = await fetch(`/api/${userId}`, { });
+    if (!res.ok) throw new Error("Not authenticated");
+    const data = await res.json();
+    console.log(data); // { id: '123', email: 'user@example.com', name: 'Alice' }
+  }
+
+  const handleSubmit = async (e) => {
+    console.log('working')
+    e.preventDefault();
+    
+    try {
+        const res = await authClient.signIn.email({email: email, password: password});
+        // console.log("Login successful:", res);
+        if(res.error) {
+          console.error("Login error:", res.error.message);
+          setErrorMessage(res.error.message)
+        }else{
+          console.log(`Login successful! ${JSON.stringify(res)}`)
+          console.log(res.data.user);
+          setUser(res);
+          getUser(res.data.id)
+          navigate("/");
+        }
+        }
+          catch (error) {
+    console.error("Login failed:", error.response?.data || error.message);
+    }
+  }
   
   return (
     <>
@@ -16,9 +54,7 @@ export default function Signin() {
             <Link to="/" className="nav-link">Home</Link>
             <Link to="/discover" className="nav-link">Discover</Link>
             <Link to="/MyLists" className="nav-link">Lists</Link>
-            <a href="#" className="nav-link">
-              Reviews
-            </a>
+            <Link to="/Reviews" className="nav-link">Reviews</Link>
           </div>
           <div className="auth-buttons">
             
@@ -31,21 +67,39 @@ export default function Signin() {
       <div className="container">
         <div className="hero-content">
           <h1 className="hero-title">Sign In!</h1>
-          <div className="Signup-form">
-            <form className="">
-              <div class="form-group">
-                  <input class="form-field" type="email" placeholder="Email"></input>
+          <div className="Signup-form" >
+            <form className="" onSubmit={handleSubmit}>
+              <div className="form-group">
+                  <input className="form-field" type="email" value={email} placeholder="Email" 
+                  required onChange={(e) => setEmail(e.target.value)}></input>
                   <span>Email</span>
               </div>
               <br/>
-              <div class="form-group">
+              <div className="form-group">
                   <span>Password</span>
-                  <input class="form-field" type="password" placeholder="Password"></input>
+                  <input className="form-field" type="password" value={password} placeholder="Password"  
+                  required onChange={(e) => setPassword(e.target.value)}></input>
               </div>
+              <div className="mb-3 d-flex justify-content-between align-items-center">
+              {/* <div className="form-check">
+                <input className="form-check-input" type="checkbox" id="remember" />
+                <label className="form-check-label small" htmlFor="remember" style={{ color: "#666666" }}>
+                  Remember me
+                </label>
+              </div>
+              <a href="#" className="small text-decoration-none" style={{ color: "#000000" }}>
+                Forgot password?
+              </a> */}
+              {errorMessage ? (
+                <p style={{color: 'red'}}>{errorMessage}</p>        
+          ) : (
+              <p></p>
+            )}
+            </div>
               <br/>
               <br/>
               <div className="signup-buttons">
-                <button type="submit" className="btn-primary btn-large">Sign in</button>
+                <button type="submit" className="btn-primary btn-large" >Sign in</button>
                 <Link to="/signup" className="btn-secondary btn-large">Don't have an Account? Sign Up!</Link>
               </div>
             </form>

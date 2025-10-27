@@ -40,10 +40,16 @@ async function getAccounts() {
   return db.collection('user').find().toArray();
 }
 
+async function searchUserById(userId) {
+  const db = await connect()
+  const query =  db.collection('user').find( userId )
+  return query.username
+}
+
 async function getClient(){ 
   if (!_client){
     await connect();
   }
   return _client;
 }
-export { registerUser, getAccountByEmail, getAccountByUsername, getAccounts, getClient, connect }
+export { registerUser, getAccountByEmail, getAccountByUsername, getAccounts, getClient, connect, searchUserById }

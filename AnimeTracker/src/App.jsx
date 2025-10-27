@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './App.css'
 import RatingModal from "./components/ratingModal"
 import { Link, Routes, Route } from "react-router-dom"
@@ -7,6 +7,9 @@ import Signup from "./pages/Signup"
 import ShowPage from "./pages/ShowPage"
 import Signin from "./pages/Signin"
 import Lists from "./pages/MyLists"
+import Reviews from './pages/Reviews.jsx'
+
+
 
 function Home({
   searchQuery,
@@ -18,7 +21,9 @@ function Home({
   currentShow,
   closeRatingModal,
   handleRatingSubmit,
-  setShowType
+  setShowType,
+  user
+  
 }) {
   return (
     <>
@@ -29,15 +34,27 @@ function Home({
               <h1>Binged</h1>
             </div>
             <div className="nav-links">
-              <Link to="/" className="nav-link activeLink">Home</Link>
+              <Link to="/" className="nav-link activeLink" style={{color: 'White'}}>Home</Link>
               <Link to="/discover" className="nav-link">Discover</Link>
               <Link to="/MyLists" className="nav-link">Lists</Link>
-              <a href="#" className="nav-link">Reviews</a>
+              <Link to="/Reviews" className="nav-link">Reviews</Link>
             </div>
-            <div className="auth-buttons">
+            {user ? (<div class="dropdown">
+              <button class="dropbtn">Username 
+                <i class="fa fa-caret-down"></i>
+              </button>
+              <div class="dropdown-content">
+                <a href="#">My Profile</a>
+                <Link to="/Reviews">Reviews</Link>
+                <Link to="/MyLists">My Lists</Link>
+                <a href="#">Followed Acounts</a>
+                <a href="#">Signout</a>
+              </div>
+            </div>) : ( <div className="auth-buttons">
               <Link to ="/signin" className="btn-secondary">Sign In</Link>
               <Link to="/signup" className="btn-primary">Sign up</Link>
-            </div>
+            </div>  )}
+            
           </nav>
         </div>
       </header>
@@ -46,6 +63,7 @@ function Home({
         <div className="container">
           <div className="hero-content">
             <h1 className="hero-title">Track, Rate & Discover Amazing Anime and Tv Shows</h1>
+            {user ? (<p>User Logged In</p>) : (<p>Not Logged In</p>)}
             <p className="hero-subtitle">
               Join thousands of anime and tv enthusiasts in rating and discovering your next binge-worthy series. Create lists,
               write reviews, and never forget what you've watched.
@@ -123,6 +141,12 @@ function Home({
       </section>
 
       {isModalOpen && <RatingModal show={currentShow} onClose={closeRatingModal} onSubmit={handleRatingSubmit} />}
+
+      <footer>
+        <p>Created by Brody Boyd</p>
+        <a href="https://www.instagram.com/brody.boyd96?igsh=MTlpNzhvcG9yNGFidA%3D%3D&utm_source=qr" target="_blank" class="fa fa-instagram"></a>
+        <a href="https://www.linkedin.com/in/brody-boyd-757778220" target="_blank" class="fa fa-linkedin"></a>
+      </footer>
     </>
   )
 }
@@ -134,6 +158,7 @@ function App() {
   const [currentShow, setCurrentShow] = useState(null)
   const [userRatedShows, setUserRatedShows] = useState([])
   const [showType, setShowType] = useState(''); // 'anime' or 'liveAction'
+  const [user, setUser] = useState(null);
 
   const openRatingModal = (show) => {
     setCurrentShow(show)
@@ -145,12 +170,20 @@ function App() {
     setCurrentShow(null)
   }
 
+
+
   const handleRatingSubmit = (ratedShow) => {
     const updatedShows = userRatedShows.filter((show) => show.id !== ratedShow.id)
     const newRatedShows = [...updatedShows, ratedShow]
     setUserRatedShows(newRatedShows)
     closeRatingModal()
   }
+  useEffect(() => {
+    console.log('Function executed on initial page load!');
+    getUser(); 
+    console.log(user)
+  }, [user]); 
+  
 
   const handleSearch = async () => {
     setSearchResults([])
@@ -229,13 +262,15 @@ function App() {
           handleRatingSubmit={handleRatingSubmit}
           showType={showType}
          setShowType={setShowType}
+         user={setUser}
         />
       } />
-      <Route path="/show" element={<ShowPage />} />
-      <Route path="/MyLists" element={<Lists />} />
-      <Route path="/discover" element={<Discover />} />
+      <Route path="/show" element={<ShowPage user={user} />} />
+      <Route path="/MyLists" element={<Lists user={user}/>} />
+      <Route path="/Reviews" element={<Reviews user={user}/>} />
+      <Route path="/discover" element={<Discover user={user}/>} />
       <Route path="/signup" element={<Signup />} />
-      <Route path="/signin" element={<Signin />} />
+      <Route path="/signin" element={<Signin setUser={setUser}/>} />
     </Routes>
   )
 }

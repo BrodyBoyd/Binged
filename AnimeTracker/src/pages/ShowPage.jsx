@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import RatingModal from "../components/ratingModal";
 import { useLocation } from "react-router-dom"
 
-export default function  Discover() {
+export default function  Discover(user) {
   const [userRatedShows, setUserRatedShows] = useState([]);
 
   
@@ -29,12 +29,24 @@ export default function  Discover() {
               <Link to="/" className="nav-link">Home</Link>
               <Link to="/discover" className="nav-link">Discover</Link>
               <Link to="/MyLists" className="nav-link">Lists</Link>
-              <a href="#" className="nav-link">Reviews</a>
+              <Link to="/Reviews" className="nav-link">Reviews</Link>
             </div>
-            <div className="auth-buttons">
-              <Link to ="/signin" className="btn-secondary">Sign In</Link>
-              <Link to="/signup" className="btn-primary">Signup</Link>
-            </div>
+            {user ? (
+              <div class="dropdown">
+                <button class="dropbtn">Username 
+                  <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content">
+                  <a href="#">My Profile</a>
+                  <Link to="/Reviews">Reviews</Link>
+                  <Link to="/MyLists">My Lists</Link>
+                  <a href="#">Followed Acounts</a>
+                  <a href="#">Signout</a>
+                </div>
+              </div>) : ( <div className="auth-buttons">
+                <Link to ="/signin" className="btn-secondary">Sign In</Link>
+                <Link to="/signup" className="btn-primary">Sign up</Link>
+              </div>  )}
           </nav>
         </div>
       </header>

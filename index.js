@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
+import { authMiddleware } from "./middleware/isSignedIn.js";
 
 dotenv.config();
 import debug from 'debug';
@@ -12,6 +13,8 @@ import { registerUser, getAccountByEmail, getAccountByUsername, getAccounts } fr
 import { validate } from './middleware/joiValidator.js';
 import { registerSchema } from './validation/schema.js'
 import auth from './auth.js'
+import userRoutes from "./routes/api/users.js";
+
 
 const app = express();
 
@@ -29,6 +32,8 @@ const port = process.env.PORT || 8080;
 //get session: GET /api/auth/get-session
 //logout: POST /api/auth/sign-out
 app.all("/api/auth/*splat", toNodeHandler(auth))
+app.use("/api", userRoutes);
+
 
 
 app.listen(port, () => {
@@ -79,6 +84,8 @@ app.get('/getAccounts', async (req,res) => {
     return res.status(500).send('server error')
   }
 });
+
+
 
 // Serve index.html for any routes that don't match API endpoints
 app.get(['/signin', '/signup', '/discover', '/', '/show/:id'], (req, res) => {

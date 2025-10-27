@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import RatingModal from "../components/ratingModal";
 
-export default function Discover() {
+export default function Discover(user) {
   const [searchResults, setSearchResults] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentShow, setCurrentShow] = useState(null);
@@ -41,6 +41,7 @@ export default function Discover() {
     if (showType === "anime") {
       getMostPopularAnime(25, page);
     }
+    console.log(user)
   }, [showType, page]);
 
 
@@ -93,21 +94,32 @@ export default function Discover() {
             </div>
             <div className="nav-links">
               <Link to="/" className="nav-link">Home</Link>
-              <Link to="/discover" className="nav-link activeLink">Discover</Link>
+              <Link to="/discover" className="nav-link activeLink" style={{color: 'White'}}>Discover</Link>
               <Link to="/MyLists" className="nav-link">Lists</Link>
-              <a href="#" className="nav-link">Reviews</a>
+              <Link to="/Reviews" className="nav-link">Reviews</Link>
             </div>
-            <div className="auth-buttons">
+            {user ? (<div class="dropdown">
+              <button class="dropbtn">Username 
+                <i class="fa fa-caret-down"></i>
+              </button>
+              <div class="dropdown-content">
+                <a href="#">My Profile</a>
+                <Link to="/Reviews">Reviews</Link>
+                <Link to="/MyLists">My Lists</Link>
+                <a href="#">Followed Acounts</a>
+                <a href="#">Signout</a>
+              </div>
+            </div>) : ( <div className="auth-buttons">
               <Link to ="/signin" className="btn-secondary">Sign In</Link>
               <Link to="/signup" className="btn-primary">Sign up</Link>
-            </div>
+            </div>  )}
           </nav>
         </div>
       </header>
       <br></br>
       <br/>
       <section className="discoverPage">
-        <div className="container">
+        <div className="container discoverContainer">
           <h2 className="section-title">Top Popular Anime and Tv Shows</h2>
           <div class="tabs">
             <div class="tab-group">
