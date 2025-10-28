@@ -5,7 +5,7 @@ import { validId } from '../../middleware/validId.js'
 
 const router = express.Router();
 
-router.get("/:userId", authMiddleware, validId('userId'), (req, res) => {
+router.get("/:userId", validId('userId'), (req, res) => {
   // You can now safely access req.user and req.session
   return searchUserById(userId)
 });

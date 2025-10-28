@@ -9,11 +9,12 @@ import debug from 'debug';
 const debugServer = debug('app:Server');
 import bcrypt from 'bcrypt';
 import { toNodeHandler } from "better-auth/node";
-import { registerUser, getAccountByEmail, getAccountByUsername, getAccounts } from './database.js'
+import { registerUser, getAccountByEmail, getAccountByUsername, getAccounts, searchUserById } from './database.js'
 import { validate } from './middleware/joiValidator.js';
 import { registerSchema } from './validation/schema.js'
 import auth from './auth.js'
 import userRoutes from "./routes/api/users.js";
+import { validId } from "./middleware/validId.js"
 
 
 const app = express();
@@ -32,7 +33,7 @@ const port = process.env.PORT || 8080;
 //get session: GET /api/auth/get-session
 //logout: POST /api/auth/sign-out
 app.all("/api/auth/*splat", toNodeHandler(auth))
-app.use("/api", userRoutes);
+// app.use("/api", userRoutes);
 
 
 
@@ -85,6 +86,16 @@ app.get('/getAccounts', async (req,res) => {
   }
 });
 
+app.get("/:email",  async (req, res) => {
+  const userEmail = req.params.email
+  const user = await getAccountByEmail(userEmail)
+  if (user) {
+  res.status(200).json(user.username)
+  return user;
+  } else {
+    res.status(400).json({message: "error"})
+  }
+});
 
 
 // Serve index.html for any routes that don't match API endpoints

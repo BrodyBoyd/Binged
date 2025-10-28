@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import RatingModal from "../components/ratingModal";
+import { authClient } from "../auth-client.js"
 
-export default function Discover(user) {
+export default function Discover() {
   const [searchResults, setSearchResults] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentShow, setCurrentShow] = useState(null);
@@ -14,7 +15,16 @@ export default function Discover(user) {
     setCurrentShow(show);
     setIsModalOpen(true);
   };
+  const { 
+        data: session, 
+        isPending, //loading state
+        error, //error object
+        refetch //refetch the session
+    } = authClient.useSession()
 
+  const signOut = async () => {
+      await authClient.signOut();
+    }
   const closeRatingModal = () => {
     setIsModalOpen(false);
     setCurrentShow(null);
@@ -41,7 +51,6 @@ export default function Discover(user) {
     if (showType === "anime") {
       getMostPopularAnime(25, page);
     }
-    console.log(user)
   }, [showType, page]);
 
 
@@ -98,26 +107,24 @@ export default function Discover(user) {
               <Link to="/MyLists" className="nav-link">Lists</Link>
               <Link to="/Reviews" className="nav-link">Reviews</Link>
             </div>
-            {user ? (<div class="dropdown">
-              <button class="dropbtn">Username 
+            {!session ? ( <div className="auth-buttons">
+              <Link to ="/signin" className="btn-secondary">Sign In</Link>
+              <Link to="/signup" className="btn-primary">Sign up</Link>
+            </div>  ) : (<div class="dropdown">
+              <button class="dropbtn">{session.user.username} 
                 <i class="fa fa-caret-down"></i>
               </button>
               <div class="dropdown-content">
-                <a href="#">My Profile</a>
+                <Link href="/MyProfile">My Profile</Link>
                 <Link to="/Reviews">Reviews</Link>
                 <Link to="/MyLists">My Lists</Link>
                 <a href="#">Followed Acounts</a>
-                <a href="#">Signout</a>
+                <a href="#" onClick={signOut}>Signout</a>
               </div>
-            </div>) : ( <div className="auth-buttons">
-              <Link to ="/signin" className="btn-secondary">Sign In</Link>
-              <Link to="/signup" className="btn-primary">Sign up</Link>
-            </div>  )}
+            </div>)}
           </nav>
         </div>
       </header>
-      <br></br>
-      <br/>
       <section className="discoverPage">
         <div className="container discoverContainer">
           <h2 className="section-title">Top Popular Anime and Tv Shows</h2>

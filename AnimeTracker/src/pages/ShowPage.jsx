@@ -2,10 +2,22 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import RatingModal from "../components/ratingModal";
 import { useLocation } from "react-router-dom"
+import { authClient } from "../auth-client.js"
 
-export default function  Discover(user) {
+export default function  Discover() {
   const [userRatedShows, setUserRatedShows] = useState([]);
 
+  const signOut = async () => {
+      await authClient.signOut();
+    }
+    
+  const { 
+        data: session, 
+        isPending, //loading state
+        error, //error object
+        refetch //refetch the session
+    } = authClient.useSession()
+    
   
   // const handleRatingSubmit = (ratedShow) => {
   //   const updatedShows = userRatedShows.filter((show) => show.id !== ratedShow.id);
@@ -31,27 +43,24 @@ export default function  Discover(user) {
               <Link to="/MyLists" className="nav-link">Lists</Link>
               <Link to="/Reviews" className="nav-link">Reviews</Link>
             </div>
-            {user ? (
-              <div class="dropdown">
-                <button class="dropbtn">Username 
-                  <i class="fa fa-caret-down"></i>
-                </button>
-                <div class="dropdown-content">
-                  <a href="#">My Profile</a>
-                  <Link to="/Reviews">Reviews</Link>
-                  <Link to="/MyLists">My Lists</Link>
-                  <a href="#">Followed Acounts</a>
-                  <a href="#">Signout</a>
-                </div>
-              </div>) : ( <div className="auth-buttons">
-                <Link to ="/signin" className="btn-secondary">Sign In</Link>
-                <Link to="/signup" className="btn-primary">Sign up</Link>
-              </div>  )}
+            {!session ? ( <div className="auth-buttons">
+              <Link to ="/signin" className="btn-secondary">Sign In</Link>
+              <Link to="/signup" className="btn-primary">Sign up</Link>
+            </div>  ) : (<div class="dropdown">
+              <button class="dropbtn">{session.user.username} 
+                <i class="fa fa-caret-down"></i>
+              </button>
+              <div class="dropdown-content">
+                <Link href="/MyProfile">My Profile</Link>
+                <Link to="/Reviews">Reviews</Link>
+                <Link to="/MyLists">My Lists</Link>
+                <a href="#">Followed Acounts</a>
+                <a href="#" onClick={signOut}>Signout</a>
+              </div>
+            </div>)}
           </nav>
         </div>
       </header>
-      <br></br>
-      <br/>
       <div className="ShowPage-Container">
         {show ? (
           <div className="show-details">

@@ -24,9 +24,9 @@ export const auth = betterAuth({
       lists: {
         type: "object",
         required: false,
-        defaultValue: [
-          {watchlist: []}
-        ]
+        defaultValue: {
+          watchlist: [],
+      }
       },
       reviews: {
         type: "object",
@@ -35,7 +35,7 @@ export const auth = betterAuth({
       },
       profilePic: {
         required: false,
-        defaultValue:  './animeTracker/public/Portrait_Placeholder.png' || null,
+        defaultValue:  'Portrait_Placeholder.png' || null,
       },
       followedAccounts: {
         type: "object",

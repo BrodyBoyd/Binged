@@ -1,11 +1,30 @@
 import { Link } from "react-router-dom";
+import { authClient } from "../auth-client.js"
+import { useEffect, useState } from "react";
 
-export default function Lists(user) {
+export default function Lists() {
+
+  const [lists, setLists] = useState([])
+
+  const signOut = async () => {
+    await authClient.signOut();
+  }
+
   
 
-  // useEffect(() => {
-  //   getMostPopularAnime(100);
-  // }, []);
+  const { 
+        data: session, 
+        isPending, //loading state
+        error, //error object
+        refetch //refetch the session
+    } = authClient.useSession()
+
+    useEffect(() => {
+      if (session){
+      setLists(session.user.lists)
+      }
+    }, [])
+
 
   return (
     <>
@@ -21,27 +40,24 @@ export default function Lists(user) {
               <Link to="/MyLists" className="nav-link activeLink" style={{color: 'White'}}>Lists</Link>
               <Link to="/Reviews" className="nav-link">Reviews</Link>
             </div>
-            {user ? (
-              <div class="dropdown">
-              <button class="dropbtn">Username 
+            {!session ? ( <div className="auth-buttons">
+              <Link to ="/signin" className="btn-secondary">Sign In</Link>
+              <Link to="/signup" className="btn-primary">Sign up</Link>
+            </div>  ) : (<div class="dropdown">
+              <button class="dropbtn">{session.user.username} 
                 <i class="fa fa-caret-down"></i>
               </button>
               <div class="dropdown-content">
-                <a href="#">My Profile</a>
+                <Link href="/MyProfile">My Profile</Link>
                 <Link to="/Reviews">Reviews</Link>
                 <Link to="/MyLists">My Lists</Link>
                 <a href="#">Followed Acounts</a>
-                <a href="#">Signout</a>
+                <a href="#" onClick={signOut}>Signout</a>
               </div>
-            </div>) : ( <div className="auth-buttons">
-              <Link to ="/signin" className="btn-secondary">Sign In</Link>
-              <Link to="/signup" className="btn-primary">Sign up</Link>
-            </div>  )}
+            </div>)}
           </nav>
         </div>
       </header>
-      <br></br>
-      <br/>
       <section className="allListsPage">
         <br/>
         <br/>

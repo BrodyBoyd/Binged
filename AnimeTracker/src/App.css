@@ -64,6 +64,7 @@ body {
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--border);
   position: fixed;
+  height: 10%;
   top: 0;
   left: 0;
   right: 0;
@@ -150,10 +151,15 @@ body {
 /* Hero Section */
 .hero {
   padding: 8rem 0 4rem;
-  margin-top: 2vw;
   background: linear-gradient(135deg, var(--background) 0%, #1a1a2e 100%);
 }
-
+.Profile-Container {
+  padding: 8rem 0 4rem;
+  background: linear-gradient(135deg, var(--background) 0%, #1a1a2e 100%);
+  min-height: 100vh; /* fill full viewport height */
+  width: 100vw;      /* fill full viewport width */
+  background: linear-gradient(135deg, var(--background) 0%, #1a1a2e 100%);
+}
 .hero-content {
   text-align: center;
   max-width: 800px;
@@ -334,9 +340,10 @@ section {
 }
 
 .discoverPage {
-  min-height: 100vw;
-  padding: 4rem 0 4rem;
-  margin-top: 2vw;
+  min-height: 100vh;
+    width: 100vw;      /* fill full viewport width */
+
+  padding: 8rem 0 4rem;
   background: linear-gradient(135deg, var(--background) 0%, #1a1a2e 100%);
   }
   .discoverContainer {
@@ -346,7 +353,7 @@ section {
     min-height: 100vh; /* fill full viewport height */
   width: 100vw;      /* fill full viewport width */
   background: linear-gradient(135deg, var(--background) 0%, #1a1a2e 100%);
-  padding: 2rem 0;
+  padding: 8rem 0 4rem;
   margin: 0;
   text-align: center;
   }
@@ -354,7 +361,7 @@ section {
     min-height: 100vh; /* fill full viewport height */
   width: 100vw;      /* fill full viewport width */
   background: linear-gradient(135deg, var(--background) 0%, #1a1a2e 100%);
-  padding: 2rem 0;
+  padding: 8rem 0 4rem;
   margin: 0;
   text-align: center;
   }
@@ -948,4 +955,16 @@ strong {
 
 .dropdown:hover .dropdown-content {
   display: block;
+}
+
+.profileImage {
+  width: 20vw;
+  height: 20vw;
+  padding: 3vw;
+}
+.profileUsername {
+  font-size: 5vw;
+}
+.topProfileItems {
+  display: flex;
 }

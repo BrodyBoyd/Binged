@@ -8,6 +8,8 @@ import ShowPage from "./pages/ShowPage"
 import Signin from "./pages/Signin"
 import Lists from "./pages/MyLists"
 import Reviews from './pages/Reviews.jsx'
+import MyProfile from './pages/UserPage.jsx'
+import { authClient } from "./auth-client.js"
 
 
 
@@ -22,7 +24,8 @@ function Home({
   closeRatingModal,
   handleRatingSubmit,
   setShowType,
-  user
+  session,
+  signout
   
 }) {
   return (
@@ -38,22 +41,24 @@ function Home({
               <Link to="/discover" className="nav-link">Discover</Link>
               <Link to="/MyLists" className="nav-link">Lists</Link>
               <Link to="/Reviews" className="nav-link">Reviews</Link>
+              <Link to="/MyProfile">My Profile</Link>
             </div>
-            {user ? (<div class="dropdown">
-              <button class="dropbtn">Username 
+            {!session ? ( <div className="auth-buttons">
+              <Link to ="/signin" className="btn-secondary">Sign In</Link>
+              <Link to="/signup" className="btn-primary">Sign up</Link>
+            </div>  ) : (<div class="dropdown">
+              <button class="dropbtn">{session.user.username} 
                 <i class="fa fa-caret-down"></i>
               </button>
               <div class="dropdown-content">
-                <a href="#">My Profile</a>
+                <Link to="/MyProfile">My Profile</Link>
                 <Link to="/Reviews">Reviews</Link>
                 <Link to="/MyLists">My Lists</Link>
                 <a href="#">Followed Acounts</a>
-                <a href="#">Signout</a>
+                <a href="#" onClick={signout} >Signout</a>  
+                {/* FIGURE OUT HOW TO MAKE SIGNOUT WORK */}
               </div>
-            </div>) : ( <div className="auth-buttons">
-              <Link to ="/signin" className="btn-secondary">Sign In</Link>
-              <Link to="/signup" className="btn-primary">Sign up</Link>
-            </div>  )}
+            </div>)}
             
           </nav>
         </div>
@@ -63,15 +68,20 @@ function Home({
         <div className="container">
           <div className="hero-content">
             <h1 className="hero-title">Track, Rate & Discover Amazing Anime and Tv Shows</h1>
-            {user ? (<p>User Logged In</p>) : (<p>Not Logged In</p>)}
+            {!session ? (<p>Not Logged In</p>) : (<p>User {session.user.username} Logged In</p>)}
             <p className="hero-subtitle">
               Join thousands of anime and tv enthusiasts in rating and discovering your next binge-worthy series. Create lists,
               write reviews, and never forget what you've watched.
             </p>
-            <div className="hero-buttons">
+            {!session ? (<div className="hero-buttons">
               <Link to ="/signin"  className="btn-primary btn-large">Get Started Free</Link>
               <Link to="/discover" className="btn-secondary btn-large">Discover</Link>
+            </div>) : (
+              <div className="hero-buttons">
+              <Link to="/discover" className="btn-secondary btn-large">Discover</Link>
             </div>
+            )}
+            
           </div>
           <div className="hero-image">
             <div className="show-grid">
@@ -158,13 +168,22 @@ function App() {
   const [currentShow, setCurrentShow] = useState(null)
   const [userRatedShows, setUserRatedShows] = useState([])
   const [showType, setShowType] = useState(''); // 'anime' or 'liveAction'
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState('1');
 
   const openRatingModal = (show) => {
     setCurrentShow(show)
     setIsModalOpen(true)
   }
-
+  
+  const { 
+        data: session, 
+        isPending, //loading state
+        error, //error object
+        refetch //refetch the session
+    } = authClient.useSession()
+    
+  
+    
   const closeRatingModal = () => {
     setIsModalOpen(false)
     setCurrentShow(null)
@@ -178,15 +197,15 @@ function App() {
     setUserRatedShows(newRatedShows)
     closeRatingModal()
   }
-  useEffect(() => {
-    console.log('Function executed on initial page load!');
-    getUser(); 
-    console.log(user)
-  }, [user]); 
   
+  const signout = async () => {
+    await authClient.signOut();
+  }
 
   const handleSearch = async () => {
     setSearchResults([])
+    console.log(session?.user?.username, isPending, error, refetch)
+    console.log(user)
     console.log("Searching for:", searchQuery, "Type:", showType);
     if (showType === 'anime') {
     const url = `https://api.jikan.moe/v4/anime?q=${encodeURIComponent(searchQuery)}&limit=15`;
@@ -220,8 +239,6 @@ function App() {
     try {
     const response = await fetch(url);
     const data = await response.json();
-
-
     const results = Array.isArray(data)
       ? data.map(item => ({
           title: item.show.name,
@@ -255,6 +272,7 @@ function App() {
           setSearchQuery={setSearchQuery}
           searchResults={searchResults}
           handleSearch={handleSearch}
+          signout={signout}
           openRatingModal={openRatingModal}
           isModalOpen={isModalOpen}
           currentShow={currentShow}
@@ -262,15 +280,18 @@ function App() {
           handleRatingSubmit={handleRatingSubmit}
           showType={showType}
          setShowType={setShowType}
-         user={setUser}
+         user={user}
+         session={session}
+         
         />
       } />
-      <Route path="/show" element={<ShowPage user={user} />} />
-      <Route path="/MyLists" element={<Lists user={user}/>} />
-      <Route path="/Reviews" element={<Reviews user={user}/>} />
-      <Route path="/discover" element={<Discover user={user}/>} />
+      <Route path="/show" element={<ShowPage />} />
+      <Route path="/MyLists" element={<Lists/>} />
+      <Route path="/Reviews" element={<Reviews />} />
+      <Route path="/discover" element={<Discover />} />
       <Route path="/signup" element={<Signup />} />
-      <Route path="/signin" element={<Signin setUser={setUser}/>} />
+      <Route path="/signin" element={<Signin />} />
+      <Route path="MyProfile" element={<MyProfile />} />
     </Routes>
   )
 }

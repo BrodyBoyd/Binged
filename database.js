@@ -26,8 +26,7 @@ async function registerUser(user){
 
 async function getAccountByEmail(email) {
   const db = await connect();
-  const user = await db.collection('Accounts').findOne({email:email})
-  return user;
+  return db.collection('user').findOne({email:email})
 }
 
 async function getAccountByUsername(username) {
@@ -42,8 +41,7 @@ async function getAccounts() {
 
 async function searchUserById(userId) {
   const db = await connect()
-  const query =  db.collection('user').find( userId )
-  return query.username
+  return db.collection('user').find({_id: userId})
 }
 
 async function getClient(){ 

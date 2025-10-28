@@ -6,18 +6,11 @@ import { useNavigate } from "react-router-dom";
 
 
 
-export default function Signin({setUser}) {
+export default function Signin() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [errorMessage, setErrorMessage] = useState("")
   const navigate = useNavigate();
-
-  async function getUser(userId) {
-    const res = await fetch(`/api/${userId}`, { });
-    if (!res.ok) throw new Error("Not authenticated");
-    const data = await res.json();
-    console.log(data); // { id: '123', email: 'user@example.com', name: 'Alice' }
-  }
 
   const handleSubmit = async (e) => {
     console.log('working')
@@ -30,10 +23,7 @@ export default function Signin({setUser}) {
           console.error("Login error:", res.error.message);
           setErrorMessage(res.error.message)
         }else{
-          console.log(`Login successful! ${JSON.stringify(res)}`)
-          console.log(res.data.user);
-          setUser(res);
-          getUser(res.data.id)
+          console.log(`Login successful! ${JSON.stringify(res)}`)         
           navigate("/");
         }
         }
