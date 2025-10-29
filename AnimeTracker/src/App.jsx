@@ -10,6 +10,8 @@ import Lists from "./pages/MyLists"
 import Reviews from './pages/Reviews.jsx'
 import MyProfile from './pages/UserPage.jsx'
 import { authClient } from "./auth-client.js"
+import { useNavigate } from "react-router-dom";
+
 
 
 
@@ -169,6 +171,7 @@ function App() {
   const [userRatedShows, setUserRatedShows] = useState([])
   const [showType, setShowType] = useState(''); // 'anime' or 'liveAction'
   const [user, setUser] = useState('1');
+  const navigate = useNavigate();
 
   const openRatingModal = (show) => {
     setCurrentShow(show)
@@ -200,6 +203,7 @@ function App() {
   
   const signout = async () => {
     await authClient.signOut();
+    navigate("/")
   }
 
   const handleSearch = async () => {
@@ -291,7 +295,7 @@ function App() {
       <Route path="/discover" element={<Discover />} />
       <Route path="/signup" element={<Signup />} />
       <Route path="/signin" element={<Signin />} />
-      <Route path="MyProfile" element={<MyProfile />} />
+      <Route path="/MyProfile" element={<MyProfile />} />
     </Routes>
   )
 }

@@ -1,10 +1,15 @@
 import { Link } from "react-router-dom";
 import { authClient } from "../auth-client.js"
+import { useNavigate } from "react-router-dom";
+
 
 export default function Reviews() {
   
+  const navigate = useNavigate();
+  
   const signOut = async () => {
       await authClient.signOut();
+      navigate("/")
     }
 
   const { 

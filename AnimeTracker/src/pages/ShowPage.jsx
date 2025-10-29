@@ -3,14 +3,20 @@ import { Link } from "react-router-dom";
 import RatingModal from "../components/ratingModal";
 import { useLocation } from "react-router-dom"
 import { authClient } from "../auth-client.js"
+import { useNavigate } from "react-router-dom";
+
+
 
 export default function  Discover() {
   const [userRatedShows, setUserRatedShows] = useState([]);
+  const navigate = useNavigate();
 
   const signOut = async () => {
       await authClient.signOut();
+      navigate('/')
     }
     
+  
   const { 
         data: session, 
         isPending, //loading state
@@ -26,8 +32,21 @@ export default function  Discover() {
   //   setUserRatedShows(newRatedShows);
   // };
   const location = useLocation()
-  const show = location.state?.show
-  console.log(show);
+  const show = (location.state?.show)
+
+  const addToWatchlist = async () => {
+    navigate('/')
+    console.log("Watchlist add attempt")
+    await fetch("/addToWatchlist", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include",
+    body: JSON.stringify({ show }), // send the show object here
+  });
+  }
+
 
   return (
     <>
@@ -67,16 +86,16 @@ export default function  Discover() {
             <img src={show.image} alt={show.title} className="show-image" />
             <div classname="show-details-text">
               <div className="title-and-rating">
-                <h2 className="show-title-showPage">{show.title}</h2>
+                <h2 className="show-title-showPage">{show.title_english ?? show.title}</h2>
                 <strong className='showPage-Rating'>★<p > {show.rating}/10</p></strong>
               </div>
               <p><strong>Type:</strong> {show.type}</p>
               <p><strong>Total Episodes:</strong> {show.episodes ?? 'N/A'}</p>
               <p><strong>Aring status:</strong> {show.status}</p>
               <p><strong>Genres:</strong> {show.genres}</p>
-              <p><strong>Description:</strong> {show.description.replace(/<p>/g, "").replace('</p>', "").replace('</b>', "").replace(/<b>/g, "")}</p>
+              <p><strong>Description:</strong> {show.description?.replace(/<p>/g, "")?.replace('</p>', "")?.replace('</b>', "")?.replace(/<b>/g, "")}</p>
               <div className="show-actions">
-                <button className="btn-primary show-button">Add to Watchlist</button>
+                <button className="btn-primary show-button" onClick={addToWatchlist}>Add to Watchlist</button>
                 <button className="btn-secondary show-button">Write a Review</button>
               </div>
             </div>

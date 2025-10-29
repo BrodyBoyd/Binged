@@ -1,13 +1,17 @@
 import { Link } from "react-router-dom";
 import { authClient } from "../auth-client.js"
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 
 export default function Lists() {
 
   const [lists, setLists] = useState([])
+  const navigate = useNavigate();
 
   const signOut = async () => {
     await authClient.signOut();
+    navigate("/")
   }
 
   
@@ -21,6 +25,7 @@ export default function Lists() {
 
     useEffect(() => {
       if (session){
+      console.log(session.user.lists)
       setLists(session.user.lists)
       }
     }, [])
@@ -67,6 +72,19 @@ export default function Lists() {
         <br/>
         <br/>
         <div className="Lists">
+          {Array.isArray(lists) && lists.length > 0 ? (
+          <div className="search-results">
+            {lists.map((list) => (
+              <div key={list.id} className="show-item">
+                <h3>{list.name}</h3>
+                {Array.isArray(list.shows) && list.shows.map((show) => (
+                  <p key={show.id}>{show.title_english ?? show.title}</p>
+                ))}
+              </div>
+            ))}
+          </div>
+        ) : (<p>Not Signed in</p>)}
+
         </div>
       </section>
 

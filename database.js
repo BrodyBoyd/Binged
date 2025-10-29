@@ -41,7 +41,14 @@ async function getAccounts() {
 
 async function searchUserById(userId) {
   const db = await connect()
+  debugDb("connected")
   return db.collection('user').find({_id: userId})
+}
+
+async function addToWatchlist(userId, show) {
+  const db = await connect();
+  return db.collection('user').updateOne({ "_id": new ObjectId(userId), "lists.name": "Watchlist" }, {$push: { "lists.$.shows": show }});
+
 }
 
 async function getClient(){ 
@@ -50,4 +57,4 @@ async function getClient(){
   }
   return _client;
 }
-export { registerUser, getAccountByEmail, getAccountByUsername, getAccounts, getClient, connect, searchUserById }
+export { registerUser, getAccountByEmail, getAccountByUsername, getAccounts, getClient, connect, searchUserById, addToWatchlist }

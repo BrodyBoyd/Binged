@@ -24,9 +24,16 @@ export const auth = betterAuth({
       lists: {
         type: "object",
         required: false,
-        defaultValue: {
-          watchlist: [],
-      }
+        defaultValue: [
+          {
+            name: "Watchlist",
+            shows: []
+          },
+          {
+            name: "Reviews",
+            shows: []
+          }
+        ]
       },
       reviews: {
         type: "object",

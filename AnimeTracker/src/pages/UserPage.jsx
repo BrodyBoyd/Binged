@@ -3,15 +3,19 @@ import { Link } from "react-router-dom";
 import RatingModal from "../components/ratingModal";
 import { useLocation } from "react-router-dom"
 import { authClient } from "../auth-client.js"
+import { useNavigate } from "react-router-dom";
+
 
 export default function  MyProfile() {
 
   const location = useLocation()
   const show = location.state?.show
   console.log(show);
+  const navigate = useNavigate();
 
   const signOut = async () => {
     await authClient.signOut();
+    navigate("/")
   }
   const { 
           data: session, 

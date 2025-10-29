@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import RatingModal from "../components/ratingModal";
 import { authClient } from "../auth-client.js"
+import { useNavigate } from "react-router-dom";
+
 
 export default function Discover() {
   const [searchResults, setSearchResults] = useState([]);
@@ -10,6 +12,7 @@ export default function Discover() {
   const [userRatedShows, setUserRatedShows] = useState([]);
   const [showType, setShowType] = useState('');
   const [page, setPage] = useState(0);
+  const navigate = useNavigate();
 
   const openRatingModal = (show) => {
     setCurrentShow(show);
@@ -24,6 +27,7 @@ export default function Discover() {
 
   const signOut = async () => {
       await authClient.signOut();
+      navigate("/")
     }
   const closeRatingModal = () => {
     setIsModalOpen(false);
