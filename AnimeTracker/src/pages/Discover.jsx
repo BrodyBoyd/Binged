@@ -74,15 +74,18 @@ export default function Discover() {
         .flatMap(data =>
           Array.isArray(data?.data)
             ? data.data.map(anime => ({
-                id: anime.mal_id,
-                title_english: anime.title_english || anime.title,
-                title: anime.title,
-                rating: anime.score ?? "N/A",
-                episodes: anime.episodes,
-                image: anime.images?.jpg?.image_url ?? "/placeholder.svg",
-                url: anime.url,
-              }))
-            : []
+            id: anime.mal_id,
+            title: anime.title_english ?? anime.title,
+            rating: anime.score ?? 'N/A',
+            episodes: anime.episodes ?? 'N/A',
+            image: anime.images?.jpg?.image_url ?? '/placeholder.svg',
+            url: anime.url,
+            status: anime.status ?? 'N/A',
+            type: anime.type ?? 'N/A',
+            genres: anime.genres?.map(g => g.name).join(', ') || 'N/A',
+            description: anime.synopsis || 'No description available.'
+          }))
+        : []
         )
         .slice(0, limit);
 
@@ -119,7 +122,7 @@ export default function Discover() {
                 <i class="fa fa-caret-down"></i>
               </button>
               <div class="dropdown-content">
-                <Link href="/MyProfile">My Profile</Link>
+                <Link to="/MyProfile">My Profile</Link>
                 <Link to="/Reviews">Reviews</Link>
                 <Link to="/MyLists">My Lists</Link>
                 <a href="#">Followed Acounts</a>
@@ -182,6 +185,12 @@ export default function Discover() {
       </section>
 
       {isModalOpen && <RatingModal show={currentShow} onClose={closeRatingModal} onSubmit={handleRatingSubmit} />}
+
+      <footer>
+        <p>Created by Brody Boyd</p>
+        <a href="https://www.instagram.com/brody.boyd96?igsh=MTlpNzhvcG9yNGFidA%3D%3D&utm_source=qr" target="_blank" class="fa fa-instagram"></a>
+        <a href="https://www.linkedin.com/in/brody-boyd-757778220" target="_blank" class="fa fa-linkedin"></a>
+      </footer>
     </>
   );
 }

@@ -23,7 +23,7 @@ function RatingModal({ show, onClose, onSubmit }) {
   const handleGoToShowPage = () => {
     onClose()
     if (show?.id) {
-      navigate(`/show`, { state: { show } })
+      navigate("/show", { state: { show } })
     } else {
       navigate("/show", { state: { show } })
     }

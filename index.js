@@ -9,7 +9,7 @@ import debug from 'debug';
 const debugServer = debug('app:Server');
 import bcrypt from 'bcrypt';
 import { toNodeHandler } from "better-auth/node";
-import { registerUser, getAccountByEmail, getAccountByUsername, getAccounts, searchUserById, addToWatchlist } from './database.js'
+import { registerUser, getAccountByEmail, getAccountByUsername, getAccounts, searchUserById, addToList } from './database.js'
 import { validate } from './middleware/joiValidator.js';
 import { registerSchema } from './validation/schema.js'
 import auth from './auth.js'
@@ -97,12 +97,12 @@ app.get("/:email",  async (req, res) => {
   }
 });
 
-app.post("/addToWatchlist", authMiddleware, async (req, res) => {
+app.post("/addToList", authMiddleware, async (req, res) => {
   try {
   const userId = req.user.id
-  const { show } = req.body;
-
-  const result = await addToWatchlist(userId, show)
+  const { show } = req.body.show;
+  const listName = req.body.listName
+  const result = await addToList(userId, show, listName)
     res.status(200).json({ success: true, data: result });
   } catch (error) {
     console.error(error);

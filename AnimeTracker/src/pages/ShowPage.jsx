@@ -4,11 +4,13 @@ import RatingModal from "../components/ratingModal";
 import { useLocation } from "react-router-dom"
 import { authClient } from "../auth-client.js"
 import { useNavigate } from "react-router-dom";
+import ListModal from "../components/addToList.jsx"
 
 
 
 export default function  Discover() {
-  const [userRatedShows, setUserRatedShows] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [show, setShow] = useState(null)
   const navigate = useNavigate();
 
   const signOut = async () => {
@@ -16,7 +18,15 @@ export default function  Discover() {
       navigate('/')
     }
     
-  
+  const openRatingModal = () => {
+    setIsModalOpen(true)
+  }
+    
+  const closeRatingModal = () => {
+    setIsModalOpen(false)
+  }
+
+
   const { 
         data: session, 
         isPending, //loading state
@@ -25,27 +35,29 @@ export default function  Discover() {
     } = authClient.useSession()
     
   
-  // const handleRatingSubmit = (ratedShow) => {
-  //   const updatedShows = userRatedShows.filter((show) => show.id !== ratedShow.id);
-  //   const newRatedShows = [...updatedShows, ratedShow];
-
-  //   setUserRatedShows(newRatedShows);
-  // };
   const location = useLocation()
-  const show = (location.state?.show)
 
-  const addToWatchlist = async () => {
-    navigate('/')
-    console.log("Watchlist add attempt")
-    await fetch("/addToWatchlist", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    credentials: "include",
-    body: JSON.stringify({ show }), // send the show object here
-  });
-  }
+  useEffect(() => {
+    
+  const currentShow = location.state?.show;
+  setShow(currentShow);
+  console.log(currentShow)
+}, []);
+
+  // const addToList = async () => {
+    
+  //   console.log("Watchlist add attempt")
+  //   await fetch("/addToWatchlist", {
+  //   method: "POST",
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //   },
+  //   credentials: "include",
+  //   body: JSON.stringify({ show }), // send the show object here
+  // });
+  // navigate('/')
+  // window.location.reload(true);
+  // }
 
 
   return (
@@ -70,7 +82,7 @@ export default function  Discover() {
                 <i class="fa fa-caret-down"></i>
               </button>
               <div class="dropdown-content">
-                <Link href="/MyProfile">My Profile</Link>
+                <Link to="/MyProfile">My Profile</Link>
                 <Link to="/Reviews">Reviews</Link>
                 <Link to="/MyLists">My Lists</Link>
                 <a href="#">Followed Acounts</a>
@@ -89,21 +101,29 @@ export default function  Discover() {
                 <h2 className="show-title-showPage">{show.title_english ?? show.title}</h2>
                 <strong className='showPage-Rating'>★<p > {show.rating}/10</p></strong>
               </div>
+              <p><strong>Description:</strong> {show.description?.replace(/<p>/g, "")?.replace('</p>', "")?.replace('</b>', "")?.replace(/<b>/g, "")}</p>
               <p><strong>Type:</strong> {show.type}</p>
               <p><strong>Total Episodes:</strong> {show.episodes ?? 'N/A'}</p>
               <p><strong>Aring status:</strong> {show.status}</p>
               <p><strong>Genres:</strong> {show.genres}</p>
-              <p><strong>Description:</strong> {show.description?.replace(/<p>/g, "")?.replace('</p>', "")?.replace('</b>', "")?.replace(/<b>/g, "")}</p>
               <div className="show-actions">
-                <button className="btn-primary show-button" onClick={addToWatchlist}>Add to Watchlist</button>
+                <button className="btn-primary show-button" onClick={() => openRatingModal(show)}>Add to List</button>
                 <button className="btn-secondary show-button">Write a Review</button>
               </div>
             </div>
           </div>
+
         ) : (
           <p>No show data available.</p>
         )}
       </div>
+      {isModalOpen && <ListModal show={show} onClose={closeRatingModal} />}
+
+      <footer>
+        <p>Created by Brody Boyd</p>
+        <a href="https://www.instagram.com/brody.boyd96?igsh=MTlpNzhvcG9yNGFidA%3D%3D&utm_source=qr" target="_blank" class="fa fa-instagram"></a>
+        <a href="https://www.linkedin.com/in/brody-boyd-757778220" target="_blank" class="fa fa-linkedin"></a>
+      </footer>
       
 
     </>

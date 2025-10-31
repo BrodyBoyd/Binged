@@ -64,7 +64,7 @@ body {
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--border);
   position: fixed;
-  height: 10%;
+  height: 12%;
   top: 0;
   left: 0;
   right: 0;
@@ -74,7 +74,7 @@ body {
 .nav {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-evenly;
   padding: .2vw 0;
 }
 
@@ -87,6 +87,7 @@ body {
 .nav-links {
   display: flex;
   gap: 2rem;
+  font-size: 1.2em;
 }
 .nav-link && .activeLink {
   color: #ff0000;
@@ -155,9 +156,8 @@ body {
 }
 .Profile-Container {
   padding: 8rem 0 4rem;
-  background: linear-gradient(135deg, var(--background) 0%, #1a1a2e 100%);
   min-height: 100vh; /* fill full viewport height */
-  width: 100vw;      /* fill full viewport width */
+  width: 100%;      /* fill full viewport width */
   background: linear-gradient(135deg, var(--background) 0%, #1a1a2e 100%);
 }
 .hero-content {
@@ -194,6 +194,10 @@ body {
 .hero-image {
   display: flex;
   justify-content: center;
+} 
+
+.List-title {
+  font-size: 3em;
 }
 
 .show-grid {
@@ -265,13 +269,20 @@ section {
 
 .show-item {
   background: var(--card);
-  
   border-radius: var(--radius);
   overflow: hidden;
   transition: transform 0.2s;
   cursor: pointer;
 }
-
+.list-results{ 
+   background: var(--card);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: transform 0.2s;
+  cursor: pointer;
+  border: rgb(252, 217, 255) solid;
+  padding: 1.5em;
+}
 .show-item:hover {
   transform: translateY(-2px);
 }
@@ -374,9 +385,11 @@ section {
   .Lists {
     display: flex;
     flex-wrap: wrap;
-    max-width: 100vw;
+    max-width: 95vw;
     justify-content: space-evenly;
     align-content: center;
+    justify-content: center;
+    align-items: center;
 
   }
 .listPageTitle {
@@ -405,6 +418,7 @@ footer {
   padding: 1vw;
   font-size: 1.5vw;
   width: 4vw;
+  height: 7.5vh;
   text-align: center;
   text-decoration: none;
   margin: 5px 2px;
@@ -449,7 +463,9 @@ footer {
   cursor: pointer;
   font-weight: 600;
 }
-
+.List-modal-title{
+  font-size: 1em;
+}
 .search-results {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -828,25 +844,49 @@ html {
 /* Show page */
 
 .show-image {
-  width: 30vw;
-  height: 40vw;
+  width: 13vw;
+  height: 17.3vw;
   object-fit: cover;
   border-radius: 12px;
   border: white 2px solid;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  margin-right: 1em;
 }
 
 .ShowPage-Container { 
   margin-top: 2em;
   display: flex; 
+  justify-content: center;
   min-height: 100vh;
-    width: 100vw;      /* fill full viewport width */
-
+  width: 100vw;      /* fill full viewport width */
   padding: 8rem 0 4rem;
   background: linear-gradient(135deg, var(--background) 0%, #1a1a2e 100%);
 }
 .show-details-text {
   
+}
+.profile-list-title {
+  text-align: center;
+  font-size: 3em;
+}
+.profile-lists {
+  border: var(--ring) solid .7vw;
+  border-radius: 20% 25% 25% 35%;
+  width: 47%;
+  padding-bottom: 1em ;
+}
+.profile-favorites {
+  border: var(--ring) solid .7vw;
+  border-radius: 20% 25% 25% 35%;
+  width: 47%;
+    padding-bottom: 1em ;
+
+}
+.profile-boxes {
+  display: flex;
+  gap: 1em;
+  align-items: space-evenly;
+  justify-content: space-evenly;
 }
 strong {
   color: var(--primary);
@@ -864,7 +904,7 @@ strong {
   font-size: 1.8vw;
 }
 .show-title-showPage {
-  font-size: 4vw;
+  font-size: 3vw;
   font-weight: 700;
   margin-bottom: 1rem;
   text-underline-offset: 14px;
@@ -872,7 +912,11 @@ strong {
 }
 .show-details {
   display: flex;
-  gap: 20px;
+  /* gap: 20px; */
+  width: 75vw;
+  justify-content: center; /* Centers content horizontally */
+
+  
 }
 .show-details p {
   font-size: 1.2vw;
@@ -970,4 +1014,5 @@ strong {
 }
 .topProfileItems {
   display: flex;
+  align-items: center;
 }

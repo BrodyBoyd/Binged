@@ -2,29 +2,23 @@ import { Link } from "react-router-dom";
 import { authClient } from "../auth-client.js"
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import { useLocation } from 'react-router-dom';
+import { reverse } from "dns";
 
 export default function Lists() {
 
   const [lists, setLists] = useState([])
-  // const [currentList, setCurrentList] = useState(null)
+  const [shows, setShows] = useState([])
+  const [listName, setListName] = useState('')
+    const [receivedData, setRecievedData] = useState(null)
   const navigate = useNavigate();
 
   const signOut = async () => {
     await authClient.signOut();
     navigate("/")
   }
-  
-      
-
-  const handleClick = (list) => {
-    console.log(list)
-    const dataToSend = { list };
-    navigate('/List', { state: { data: dataToSend } });
-  };
-
-
-  
+  const location = useLocation();
+   
 
   const { 
         data: session, 
@@ -35,8 +29,14 @@ export default function Lists() {
 
     useEffect(() => {
       if (session){
-      console.log(session.user.lists)
-      setLists(session.user.lists)
+      console.log(`signed in as ${session.user.username}`)
+      const receivedData = location.state?.data;
+      console.log(receivedData)
+      const shows = receivedData.list.shows
+      const listName = receivedData.list.name
+      setRecievedData(receivedData)
+      setListName(listName)
+      setShows(shows)
       }
     }, [])
 
@@ -76,24 +76,26 @@ export default function Lists() {
       <section className="allListsPage">
         <br/>
         <br/>
-        <p className="listPageTitle">Your Lists</p>
+        <p className="listPageTitle">{listName}</p>
         <br/>
         <br/>
         <br/>
         <br/>
         <div className="Lists">
-          {Array.isArray(lists) && lists.length > 0 ? (
-          <div className="list-results">
-            {lists.map((list) => (
-              <div key={list.id} className="show-item"  onClick={() => {handleClick(list); }}>
-                <h3 className="List-title">{list.name}</h3>
-                {/* {Array.isArray(list.shows) && list.shows.map((show) => (
-                  <p key={show.id}>{show.title_english ?? show.title}</p>
-                ))} */}
-              </div>
-            ))}
+          {receivedData ? (
+          <div className="search-results">
+            {shows.map((show) => (
+                <div key={show.id} className="show-item">
+                  <img src={show.image || "/placeholder.svg"} alt={show.title} />
+                  <div className="show-info">
+                    <h3 className="show-title">{show.title}</h3>
+                    <div className="show-rating">★ {show.rating}</div>
+                    {show.episodes != null && ( <div className="show-episodes">{show.episodes} episodes</div> )}
+                  </div>
+                </div>
+              ))}
           </div>
-        ) : (<p>Not Signed in</p>)}
+        ) : (<p>No Shows in List</p>)}
 
         </div>
       </section>

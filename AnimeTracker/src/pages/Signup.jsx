@@ -112,6 +112,12 @@ export default function Signup() {
       </div>
       </div>
     </section>
+
+    <footer>
+        <p>Created by Brody Boyd</p>
+        <a href="https://www.instagram.com/brody.boyd96?igsh=MTlpNzhvcG9yNGFidA%3D%3D&utm_source=qr" target="_blank" class="fa fa-instagram"></a>
+        <a href="https://www.linkedin.com/in/brody-boyd-757778220" target="_blank" class="fa fa-linkedin"></a>
+      </footer>
     </>
   );
 }

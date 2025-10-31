@@ -45,9 +45,9 @@ async function searchUserById(userId) {
   return db.collection('user').find({_id: userId})
 }
 
-async function addToWatchlist(userId, show) {
+async function addToList(userId, show, listName) {
   const db = await connect();
-  return db.collection('user').updateOne({ "_id": new ObjectId(userId), "lists.name": "Watchlist" }, {$push: { "lists.$.shows": show }});
+  return db.collection('user').updateOne({ "_id": new ObjectId(userId), "lists.name": listName }, {$push: { "lists.$.shows": show }});
 
 }
 
@@ -57,4 +57,4 @@ async function getClient(){
   }
   return _client;
 }
-export { registerUser, getAccountByEmail, getAccountByUsername, getAccounts, getClient, connect, searchUserById, addToWatchlist }
+export { registerUser, getAccountByEmail, getAccountByUsername, getAccounts, getClient, connect, searchUserById, addToList }

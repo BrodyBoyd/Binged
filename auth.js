@@ -29,10 +29,6 @@ export const auth = betterAuth({
             name: "Watchlist",
             shows: []
           },
-          {
-            name: "Reviews",
-            shows: []
-          }
         ]
       },
       reviews: {

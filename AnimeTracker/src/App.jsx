@@ -9,6 +9,7 @@ import Signin from "./pages/Signin"
 import Lists from "./pages/MyLists"
 import Reviews from './pages/Reviews.jsx'
 import MyProfile from './pages/UserPage.jsx'
+import List from './pages/List.jsx'
 import { authClient } from "./auth-client.js"
 import { useNavigate } from "react-router-dom";
 
@@ -58,7 +59,6 @@ function Home({
                 <Link to="/MyLists">My Lists</Link>
                 <a href="#">Followed Acounts</a>
                 <a href="#" onClick={signout} >Signout</a>  
-                {/* FIGURE OUT HOW TO MAKE SIGNOUT WORK */}
               </div>
             </div>)}
             
@@ -296,6 +296,7 @@ function App() {
       <Route path="/signup" element={<Signup />} />
       <Route path="/signin" element={<Signin />} />
       <Route path="/MyProfile" element={<MyProfile />} />
+      <Route path='/List' element={<List />} />
     </Routes>
   )
 }

@@ -45,7 +45,7 @@ export default function Reviews() {
                 <i class="fa fa-caret-down"></i>
               </button>
               <div class="dropdown-content">
-                <Link href="/MyProfile">My Profile</Link>
+                <Link to="/MyProfile">My Profile</Link>
                 <Link to="/Reviews">Reviews</Link>
                 <Link to="/MyLists">My Lists</Link>
                 <a href="#">Followed Acounts</a>
@@ -60,6 +60,12 @@ export default function Reviews() {
         <br/>
         <p className="listPageTitle">Your Reviews</p>
       </section>
+
+      <footer>
+        <p>Created by Brody Boyd</p>
+        <a href="https://www.instagram.com/brody.boyd96?igsh=MTlpNzhvcG9yNGFidA%3D%3D&utm_source=qr" target="_blank" class="fa fa-instagram"></a>
+        <a href="https://www.linkedin.com/in/brody-boyd-757778220" target="_blank" class="fa fa-linkedin"></a>
+      </footer>
 
     </>
   );
