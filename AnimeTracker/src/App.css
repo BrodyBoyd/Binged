@@ -9,6 +9,7 @@
   --popover: #1a1a24;
   --popover-foreground: #f0f0f8;
   --primary: #8b5cf6;
+  --primaryFade: #493084;
   --primary-foreground: #f8f8ff;
   --secondary: #2a2a3a;
   --secondary-foreground: #d0d0e0;
@@ -387,10 +388,8 @@ section {
     flex-wrap: wrap;
     max-width: 95vw;
     justify-content: space-evenly;
-    align-content: center;
-    justify-content: center;
-    align-items: center;
-
+    gap: 2vw;
+    margin-bottom: 2vw;
   }
 .listPageTitle {
  font-size: 3.5rem;
@@ -870,16 +869,38 @@ html {
   font-size: 3em;
 }
 .profile-lists {
-  border: var(--ring) solid .7vw;
-  border-radius: 20% 25% 25% 35%;
+  font-size: 1.6rem;
+	place-items: center;
+	min-height: 200px;
+	border: 8px solid;
+	padding: 1rem;
   width: 47%;
   padding-bottom: 1em ;
+  border-image: linear-gradient(45deg, var(--primary), var(--primaryFade)) 1;
+
+}
+.btn-danger {
+  background: var(--destructive);
+  color: var(--destructive-foreground);
+}
+.deleteButtons {
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 2vw;
+    gap: 2vw;
+    margin-bottom: 2vw;
 }
 .profile-favorites {
-  border: var(--ring) solid .7vw;
-  border-radius: 20% 25% 25% 35%;
+  font-size: 1.6rem;
+	display: grid;
+	place-items: center;
+	min-height: 200px;
+	border: 8px solid;
+	padding: 1rem;
   width: 47%;
-    padding-bottom: 1em ;
+  padding-bottom: 1em ;
+  border-image: linear-gradient(45deg, var(--primary), var(--primaryFade)) 1;
+
 
 }
 .profile-boxes {
@@ -902,6 +923,29 @@ strong {
 .show-button {
   padding: 2.3vw;
   font-size: 1.8vw;
+}
+.newListInput {
+  flex: 1;
+  padding: 1rem;
+  background: var(--input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--foreground);
+  font-size: 1rem;
+  margin-right: 1rem;
+}
+.createListButton {
+  padding: 1.5vw;
+  font-size: 1vw;
+  padding: 0.5rem 1.2rem;
+  border: none;
+  border-radius: var(--radius);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
 }
 .show-title-showPage {
   font-size: 3vw;

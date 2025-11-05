@@ -92,20 +92,19 @@ export default function Lists() {
         <br/>
         <div className="Lists">
           {Array.isArray(lists) && lists.length > 0 ? (
-          <div className="list-results">
+          <div className="Lists">
             {lists.map((list) => (
+              <div className="list-results">
               <div key={list.id} className="show-item"  onClick={() => {handleClick(list); }}>
                 <h3 className="List-title">{list.name}</h3>
-                {/* {Array.isArray(list.shows) && list.shows.map((show) => (
-                  <p key={show.id}>{show.title_english ?? show.title}</p>
-                ))} */}
+                </div>
               </div>
             ))}
             
           </div>
         ) : (<p>Not Signed in</p>)}
         </div>
-        <button onClick={openRatingModal}>Create New List</button>
+        <button onClick={openRatingModal} className="createListButton btn-primary">Create New List</button>
 
         {isModalOpen && <CreateListModal  onClose={closeRatingModal} />}
       </section>

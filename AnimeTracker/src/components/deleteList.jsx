@@ -7,7 +7,7 @@ import { authClient } from "../auth-client.js"
 
 import "../pages/MyLists.jsx"
 
-function CreateListModal({ onClose }) {
+function DeleteList({ onClose }) {
 
   const [listName, setListName] = useState('');
   const navigate = useNavigate()
@@ -45,18 +45,18 @@ function CreateListModal({ onClose }) {
     <div className="modal active">
       <div className="modal-content">
         <div className="modal-header">
-          <h3>Create New List</h3>
+          <h3>Are you sure you want to delete?</h3>
           <button className="modal-close" onClick={onClose}>
             ×
           </button>
         </div>
-        <div className="modal-body">
-          <input className="newListInput" type="text" placeholder="List Name" id="new-list-name" onChange={e => setListName(e.target.value)}/>
-          <button className="createListButton btn-primary" onClick={() => handleClick(listName)}>Create List</button>
+        <div className="deleteButtons">
+          <button className="createListButton btn-primary" onClick={onClose}>Cancel</button>
+          <button className="createListButton btn-danger" onClick={() => handleClick(listName)}>Confirm Delete</button>
         </div>
       </div>
     </div>
   )
 }
 
-export default CreateListModal
+export default DeleteList

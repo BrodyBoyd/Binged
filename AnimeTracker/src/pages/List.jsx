@@ -4,15 +4,25 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from 'react-router-dom';
 import { reverse } from "dns";
+import DeleteList from "../components/deleteList.jsx";
 
 export default function Lists() {
 
   const [lists, setLists] = useState([])
   const [shows, setShows] = useState([])
   const [listName, setListName] = useState('')
-    const [receivedData, setRecievedData] = useState(null)
+  const [receivedData, setRecievedData] = useState(null)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
   const navigate = useNavigate();
 
+  const openRatingModal = () => {
+    setIsModalOpen(true)
+  }
+    
+  const closeRatingModal = () => {
+    setIsModalOpen(false)
+  }
   const signOut = async () => {
     await authClient.signOut();
     navigate("/")
@@ -85,6 +95,7 @@ export default function Lists() {
           {receivedData ? (
           <div className="search-results">
             {shows.map((show) => (
+              <div className="search-results">
                 <div key={show.id} className="show-item">
                   <img src={show.image || "/placeholder.svg"} alt={show.title} />
                   <div className="show-info">
@@ -93,12 +104,15 @@ export default function Lists() {
                     {show.episodes != null && ( <div className="show-episodes">{show.episodes} episodes</div> )}
                   </div>
                 </div>
+                </div>
               ))}
           </div>
         ) : (<p>No Shows in List</p>)}
 
         </div>
+        <button onClick={openRatingModal} className="createListButton btn-danger">Delete List</button>
       </section>
+      {isModalOpen && <DeleteList  onClose={closeRatingModal} />}
 
       <footer>
         <p>Created by Brody Boyd</p>
