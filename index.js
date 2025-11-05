@@ -9,7 +9,7 @@ import debug from 'debug';
 const debugServer = debug('app:Server');
 import bcrypt from 'bcrypt';
 import { toNodeHandler } from "better-auth/node";
-import { registerUser, getAccountByEmail, getAccountByUsername, getAccounts, searchUserById, addToList } from './database.js'
+import { registerUser, getAccountByEmail, getAccountByUsername, getAccounts, searchUserById, addToList, createList } from './database.js'
 import { validate } from './middleware/joiValidator.js';
 import { registerSchema } from './validation/schema.js'
 import auth from './auth.js'
@@ -109,6 +109,18 @@ app.post("/addToList", authMiddleware, async (req, res) => {
     res.status(500).json({ success: false, message: "Failed to add to watchlist" });
   }
 })
+
+app.post("/createList", authMiddleware, async (req, res) => {
+  try {
+    const userId = req.user.id
+    const listName = req.body.listName
+    const result = await createList(userId, listName)
+    res.status(200).json({ success: true, data: result });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: "Failed to create list" });
+  }
+});
 
 // Serve index.html for any routes that don't match API endpoints
 app.get(['/signin', '/signup', '/discover', '/', '/show/:id'], (req, res) => {

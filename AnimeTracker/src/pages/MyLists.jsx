@@ -2,11 +2,14 @@ import { Link } from "react-router-dom";
 import { authClient } from "../auth-client.js"
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import CreateListModal from "../components/newList.jsx";
 
 
 export default function Lists() {
 
   const [lists, setLists] = useState([])
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  
   // const [currentList, setCurrentList] = useState(null)
   const navigate = useNavigate();
 
@@ -15,7 +18,13 @@ export default function Lists() {
     navigate("/")
   }
   
-      
+  const openRatingModal = () => {
+    setIsModalOpen(true)
+  }
+    
+  const closeRatingModal = () => {
+    setIsModalOpen(false)
+  }
 
   const handleClick = (list) => {
     console.log(list)
@@ -92,10 +101,13 @@ export default function Lists() {
                 ))} */}
               </div>
             ))}
+            
           </div>
         ) : (<p>Not Signed in</p>)}
-
         </div>
+        <button onClick={openRatingModal}>Create New List</button>
+
+        {isModalOpen && <CreateListModal  onClose={closeRatingModal} />}
       </section>
 
       <footer>

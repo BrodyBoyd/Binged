@@ -51,10 +51,15 @@ async function addToList(userId, show, listName) {
 
 }
 
+async function createList(userId, listName) {
+  const db = await connect();
+  return db.collection('user').updateOne({"_id": new ObjectId(userId)}, {$push: { lists: { name: listName, shows: []}}});
+}
+
 async function getClient(){ 
   if (!_client){
     await connect();
   }
   return _client;
 }
-export { registerUser, getAccountByEmail, getAccountByUsername, getAccounts, getClient, connect, searchUserById, addToList }
+export { registerUser, getAccountByEmail, getAccountByUsername, getAccounts, getClient, connect, searchUserById, addToList, createList }
