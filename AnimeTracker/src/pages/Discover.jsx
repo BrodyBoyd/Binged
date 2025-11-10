@@ -33,13 +33,6 @@ export default function Discover() {
     setIsModalOpen(false);
     setCurrentShow(null);
   };
-  const handleRatingSubmit = (ratedShow) => {
-    const updatedShows = userRatedShows.filter((show) => show.id !== ratedShow.id);
-    const newRatedShows = [...updatedShows, ratedShow];
-
-    setUserRatedShows(newRatedShows);
-    closeRatingModal();
-  };
   const nextPage = () => {
     setPage(page + 1);
     window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
@@ -184,7 +177,7 @@ export default function Discover() {
         
       </section>
 
-      {isModalOpen && <RatingModal show={currentShow} onClose={closeRatingModal} onSubmit={handleRatingSubmit} />}
+      {isModalOpen && <RatingModal show={currentShow} onClose={closeRatingModal} />}
 
       <footer>
         <p>Created by Brody Boyd</p>

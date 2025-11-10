@@ -3,23 +3,40 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import "../pages/ShowPage.jsx"
+import { authClient } from "../auth-client.js"
 
-function RatingModal({ show, onClose, onSubmit }) {
+
+function RatingModal({ show, onClose }) {
   const [rating, setRating] = useState(0)
   const [review, setReview] = useState("")
   const navigate = useNavigate()
 
-  const handleSubmit = (e) => {
+  const { 
+            data: session, 
+            isPending, //loading state
+            error, //error object
+            refetch //refetch the session
+        } = authClient.useSession()
+
+  const submitRating = async (e) => {
     e.preventDefault()
-    if (rating > 0) {
-      onSubmit({
-        ...show,
-        userRating: rating,
-        review: review,
-        dateRated: new Date().toISOString(),
-      })
-    }
+    await fetch("/createReview", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include",
+    body: JSON.stringify({ 
+      showId: show.id,
+      reviewText: review,
+      rating: rating,
+      show: show
+    }), 
+  });
+  navigate('/')
+  window.location.reload(true);
   }
+
   const handleGoToShowPage = () => {
     onClose()
     if (show?.id) {
@@ -44,7 +61,7 @@ function RatingModal({ show, onClose, onSubmit }) {
         </div>
         <div className="modal-body">
           <div className="rating-stars">
-            {[1, 2, 3, 4, 5].map((star) => (
+            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((star) => (
               <span
                 key={star}
                 className={`star ${star <= rating ? "active" : ""}`}
@@ -54,7 +71,7 @@ function RatingModal({ show, onClose, onSubmit }) {
               </span>
             ))}
           </div>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={submitRating}>
             <textarea
               placeholder="Write your review (optional)..."
               value={review}

@@ -9,7 +9,7 @@ import debug from 'debug';
 const debugServer = debug('app:Server');
 import bcrypt from 'bcrypt';
 import { toNodeHandler } from "better-auth/node";
-import { registerUser, getAccountByEmail, getAccountByUsername, getAccounts, searchUserById, addToList, createList } from './database.js'
+import { registerUser, getAccountByEmail, getAccountByUsername, getAccounts, searchUserById, addToList, createList, createReview } from './database.js'
 import { validate } from './middleware/joiValidator.js';
 import { registerSchema } from './validation/schema.js'
 import auth from './auth.js'
@@ -121,6 +121,30 @@ app.post("/createList", authMiddleware, async (req, res) => {
     res.status(500).json({ success: false, message: "Failed to create list" });
   }
 });
+
+app.post("/createReview", authMiddleware, async (req,res) => {
+  try {
+    const userId = req.user.id;
+    const review = {
+    username: req.user.username,
+    showId: req.body.showId,
+    review: req.body.reviewText,
+    rating: req.body.rating,
+    image: req.body.show.image,
+    title: req.body.show.title,
+    dateRated: new Date()
+    }
+    const result = await createReview(userId, review)
+    if (result) {
+      res.status(200).json({ success: true, data: result });
+    } else {
+      res.status(400).json({error: "unable to add review"})
+    }
+} catch (err){ 
+  console.error(err)
+  res.status(500).json({error: "Server Error"})
+}
+})
 
 // Serve index.html for any routes that don't match API endpoints
 app.get(['/signin', '/signup', '/discover', '/', '/show/:id'], (req, res) => {

@@ -25,7 +25,6 @@ function Home({
   isModalOpen,
   currentShow,
   closeRatingModal,
-  handleRatingSubmit,
   setShowType,
   session,
   signout
@@ -152,7 +151,7 @@ function Home({
         </div>
       </section>
 
-      {isModalOpen && <RatingModal show={currentShow} onClose={closeRatingModal} onSubmit={handleRatingSubmit} />}
+      {isModalOpen && <RatingModal show={currentShow} onClose={closeRatingModal} />}
 
       <footer>
         <p>Created by Brody Boyd</p>
@@ -168,7 +167,6 @@ function App() {
   const [searchResults, setSearchResults] = useState([])
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [currentShow, setCurrentShow] = useState(null)
-  const [userRatedShows, setUserRatedShows] = useState([])
   const [showType, setShowType] = useState(''); // 'anime' or 'liveAction'
   const [user, setUser] = useState('1');
   const navigate = useNavigate();
@@ -192,14 +190,6 @@ function App() {
     setCurrentShow(null)
   }
 
-
-
-  const handleRatingSubmit = (ratedShow) => {
-    const updatedShows = userRatedShows.filter((show) => show.id !== ratedShow.id)
-    const newRatedShows = [...updatedShows, ratedShow]
-    setUserRatedShows(newRatedShows)
-    closeRatingModal()
-  }
   
   const signout = async () => {
     await authClient.signOut();
@@ -281,7 +271,6 @@ function App() {
           isModalOpen={isModalOpen}
           currentShow={currentShow}
           closeRatingModal={closeRatingModal}
-          handleRatingSubmit={handleRatingSubmit}
           showType={showType}
          setShowType={setShowType}
          user={user}

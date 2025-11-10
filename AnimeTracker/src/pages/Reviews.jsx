@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
 import { authClient } from "../auth-client.js"
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 
 
 export default function Reviews() {
-  
+  const [reviews, setReviews] = useState([])
   const navigate = useNavigate();
   
   const signOut = async () => {
@@ -12,6 +13,13 @@ export default function Reviews() {
       navigate("/")
     }
 
+
+    useEffect(() => {
+          if (session){
+          console.log(session.user.reviews)
+          setReviews(session.user.reviews)
+          }
+        }, [])
   const { 
         data: session, 
         isPending, //loading state
@@ -59,6 +67,29 @@ export default function Reviews() {
         <br/>
         <br/>
         <p className="listPageTitle">Your Reviews</p>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        {Array.isArray(reviews) && reviews.length > 0 ? (
+          <div className="Lists">
+            {reviews.map((show) => (
+                <div key={show.id} className="show-item">
+                  <img src={show.image || "/placeholder.svg"} alt={show.title} />
+                  <div className="show-info">
+                    <h3 className="show-title">{show.title}</h3>
+                    <div className="show-rating">★ {show.rating}</div>
+                    <div>Review: {show.review}</div>
+                  </div>
+                </div>
+            ))}
+          </div>
+        ) : (
+          <p>No reviews yet!</p>
+        )}
+
+
+        
       </section>
 
       <footer>

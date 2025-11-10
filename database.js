@@ -62,4 +62,9 @@ async function getClient(){
   }
   return _client;
 }
-export { registerUser, getAccountByEmail, getAccountByUsername, getAccounts, getClient, connect, searchUserById, addToList, createList }
+
+async function createReview(userId, review) {
+  const db = await connect()
+  return db.collection('user').updateOne({"_id": new ObjectId(userId)}, {$push: { reviews: review }})
+}
+export { registerUser, getAccountByEmail, getAccountByUsername, getAccounts, getClient, connect, searchUserById, addToList, createList, createReview }

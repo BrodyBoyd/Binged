@@ -1,12 +1,5 @@
 Add a whole way so that when a user creates a review it sends it to its own database and logs the anime ID so that you are able to search by id and then use that to populate reviews on each shows show page, and also make it so that there is a "Recent Reviews" section on the home page and it pulls the newest 15ish reviews so that any user can go look at those.
 
-user review - Include: 
-- user Id
-- text 
-- rating out of 10 (stars)
-- username
-- date reviewed
-
 find a way so that when someone clicks on a review a modal pops up that includes text, rating, username, and date reviwed, then make it so that the username is a clickable feature and you can go view that users profile.  use backend route to pull all users information and make their profile data, create new page for that and keep "MyProfile" page the same
 
 make it so that clicking "Binged" on the top left brings you back to home page"
@@ -19,3 +12,4 @@ list pages (needs lil work, too wide)
 discover (same^)
 NAVBAR NAVBAR NAVBAR NAVBAR NAVBAR
 little work on user page (too wide also just not formatted perfectly)
+
