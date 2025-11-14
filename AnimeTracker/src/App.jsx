@@ -43,7 +43,6 @@ function Home({
               <Link to="/discover" className="nav-link">Discover</Link>
               <Link to="/MyLists" className="nav-link">Lists</Link>
               <Link to="/Reviews" className="nav-link">Reviews</Link>
-              <Link to="/MyProfile">My Profile</Link>
             </div>
             {!session ? ( <div className="auth-buttons">
               <Link to ="/signin" className="btn-secondary">Sign In</Link>
@@ -69,7 +68,6 @@ function Home({
         <div className="container">
           <div className="hero-content">
             <h1 className="hero-title">Track, Rate & Discover Amazing Anime and Tv Shows</h1>
-            {!session ? (<p>Not Logged In</p>) : (<p>User {session.user.username} Logged In</p>)}
             <p className="hero-subtitle">
               Join thousands of anime and tv enthusiasts in rating and discovering your next binge-worthy series. Create lists,
               write reviews, and never forget what you've watched.
