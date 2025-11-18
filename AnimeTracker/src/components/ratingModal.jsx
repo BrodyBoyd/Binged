@@ -64,7 +64,7 @@ function RatingModal({ show, onClose }) {
             {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((star) => (
               <span
                 key={star}
-                className={`star ${star <= rating ? "active" : ""}`}
+                className={`scale-50 sm:scale-100 star ${star <= rating ? "active" : ""}`}
                 onClick={() => handleStarClick(star)}
               >
                 ★
@@ -78,13 +78,13 @@ function RatingModal({ show, onClose }) {
               onChange={(e) => setReview(e.target.value)}
             />
             <div style={{ display: "flex", gap: "1rem", justifyContent: "flex-end" }}>
-              <button type="button" className="btn-secondary" onClick={handleGoToShowPage}>
+              <button type="button" className="btn-secondary ratingModalButton" onClick={handleGoToShowPage}>
                 Go To Show Page
               </button>
-              <button type="button" className="btn-secondary" onClick={onClose}>
+              <button type="button" className="btn-secondary ratingModalButton" onClick={onClose}>
                 Cancel
               </button>
-              <button type="submit" className="btn-primary" disabled={rating === 0}>
+              <button type="submit" className="btn-primary ratingModalButton" disabled={rating === 0}>
                 Submit Rating
               </button>
             </div>

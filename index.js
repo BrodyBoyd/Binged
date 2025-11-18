@@ -3,13 +3,13 @@ import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import { authMiddleware } from "./middleware/isSignedIn.js";
-
+import cors from 'cors'
 dotenv.config();
 import debug from 'debug';
 const debugServer = debug('app:Server');
 import bcrypt from 'bcrypt';
 import { toNodeHandler } from "better-auth/node";
-import { registerUser, getAccountByEmail, getAccountByUsername, getAccounts, searchUserById, addToList, createList, createReview } from './database.js'
+import { registerUser, deleteList, getAccountByEmail, getAccountByUsername, getAccounts, searchUserById, addToList, createList, createReview, deleteReview } from './database.js'
 import { validate } from './middleware/joiValidator.js';
 import { registerSchema } from './validation/schema.js'
 import auth from './auth.js'
@@ -27,6 +27,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json())
 app.use(express.static(join(__dirname, 'AnimeTracker/dist')));
 const port = process.env.PORT || 8080;
+app.use(cors({
+    origin: ["http://localhost:5173", "http://localhost:8080","http://localhost:3000", "https://binged-101902204590.us-central1.run.app"],
+    credentials: true
+}));
 
 //login: POST /api/auth/sign-in/email
 //Signup: POST /api/auth/sign-up/email
@@ -122,6 +126,18 @@ app.post("/createList", authMiddleware, async (req, res) => {
   }
 });
 
+app.post("/deleteList", authMiddleware, async (req, res) => {
+  try {
+    const userId = req.user.id
+    const listName = req.body.listName
+    const result = await deleteList(userId, listName)
+    res.status(200).json({ success: true, data: result });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: "Failed to delete list" });
+  }
+});
+
 app.post("/createReview", authMiddleware, async (req,res) => {
   try {
     const userId = req.user.id;
@@ -143,6 +159,25 @@ app.post("/createReview", authMiddleware, async (req,res) => {
 } catch (err){ 
   console.error(err)
   res.status(500).json({error: "Server Error"})
+}
+})
+
+app.post("/deleteReview", authMiddleware, async (req,res) => {
+  try {
+    const userId = req.user.id;
+    const reviewId = req.body.reviewId;
+    const result = await deleteReview(userId, reviewId)
+    if (result) {
+      res.status(200).json({ success: true, data: result });
+      console.log("Review deleted")
+    } else {
+      res.status(400).json({error: "unable to add review"})
+      console.log("Unable to delete review")
+    }
+} catch (err){ 
+  console.error(err)
+  res.status(500).json({error: "Server Error"})
+  console.log("Server error");
 }
 })
 

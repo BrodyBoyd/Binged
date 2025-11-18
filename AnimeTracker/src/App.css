@@ -152,11 +152,11 @@ body {
 
 /* Hero Section */
 .hero {
-  padding: 8rem 0 4rem;
+
   background: linear-gradient(135deg, var(--background) 0%, #1a1a2e 100%);
 }
 .Profile-Container {
-  padding: 8rem 0 4rem;
+
   min-height: 100vh; /* fill full viewport height */
   width: 100%;      /* fill full viewport width */
   background: linear-gradient(135deg, var(--background) 0%, #1a1a2e 100%);
@@ -274,6 +274,38 @@ section {
   overflow: hidden;
   transition: transform 0.2s;
   cursor: pointer;
+  border: var(--Primary);
+}
+.review-item {
+  background: var(--card);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: transform 0.2s;
+  cursor: pointer;
+  border: rgb(252, 217, 255) solid;
+  height: auto;
+}
+.reviewImage {
+  filter: grayscale(0);
+}
+.review-image{
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+.movie-card {
+  background: var(--card);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: transform 0.2s;
+  cursor: pointer;
+  border: rgb(255, 255, 255) solid;
+  height: auto;
+  padding: 2em;
+}
+.navBarStyle {
+  padding: 1vw 2vw;
+  border-bottom: white solid;
 }
 .list-results{ 
    background: var(--card);
@@ -355,17 +387,16 @@ section {
   min-height: 100vh;
     width: 100vw;      /* fill full viewport width */
 
-  padding: 8rem 0 4rem;
   background: linear-gradient(135deg, var(--background) 0%, #1a1a2e 100%);
   }
   .discoverContainer {
-    padding-top: 2vw;
+   
   }
   .allListsPage {
     min-height: 100vh; /* fill full viewport height */
   width: 100vw;      /* fill full viewport width */
   background: linear-gradient(135deg, var(--background) 0%, #1a1a2e 100%);
-  padding: 8rem 0 4rem;
+
   margin: 0;
   text-align: center;
   }
@@ -373,7 +404,7 @@ section {
     min-height: 100vh; /* fill full viewport height */
   width: 100vw;      /* fill full viewport width */
   background: linear-gradient(135deg, var(--background) 0%, #1a1a2e 100%);
-  padding: 8rem 0 4rem;
+
   margin: 0;
   text-align: center;
   }
@@ -472,7 +503,13 @@ footer {
   max-width: 100%;
   margin: 0 auto;
 }
-
+.list-results {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  max-width: 80%;
+  margin: 0 auto;
+}
 /* Stats Section */
 .stats-grid {
   display: grid;
@@ -513,7 +550,17 @@ footer {
   align-items: center;
   justify-content: center;
 }
-
+.reviewModal {
+  display: none;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+}
 .modal.active {
   display: flex;
 }
@@ -524,6 +571,14 @@ footer {
   max-width: 500px;
   width: 90%;
   max-height: 90vh;
+  overflow-y: auto;
+}
+.review-modal-content .modal-content {
+  background: var(--card);
+  border-radius: var(--radius);
+  max-width: 80%;
+  width: 100%;
+  max-height: 100%;
   overflow-y: auto;
 }
 
@@ -853,16 +908,19 @@ html {
 }
 
 .ShowPage-Container { 
-  margin-top: 2em;
+
   display: flex; 
   justify-content: center;
   min-height: 100vh;
   width: 100vw;      /* fill full viewport width */
-  padding: 8rem 0 4rem;
   background: linear-gradient(135deg, var(--background) 0%, #1a1a2e 100%);
 }
 .show-details-text {
   
+}
+
+.ratingModalButton {
+  max-width: 33%;
 }
 .profile-list-title {
   text-align: center;

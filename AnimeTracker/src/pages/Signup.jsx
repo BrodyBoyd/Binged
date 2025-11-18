@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { authClient } from "../auth-client.js";
 import { useNavigate } from "react-router-dom";
+import Navbar from '../components/navbar.jsx'
 
 
 export default function Signup() {
@@ -44,24 +45,7 @@ export default function Signup() {
   
   return (
     <>
-      <header className="header">
-      <div className="container">
-        <nav className="nav">
-          <div className="logo">
-            <h1>Binged</h1>
-          </div>
-          <div className="nav-links">
-            <Link to="/" className="nav-link">Home</Link>
-            <Link to="/discover" className="nav-link">Discover</Link>
-            <Link to="/MyLists" className="nav-link">Lists</Link>
-            <Link to="/Reviews" className="nav-link">Reviews</Link>
-          </div>
-          <div className="auth-buttons">
-            
-          </div>
-        </nav>
-      </div>
-    </header>
+    <Navbar />
 
     <section className="hero">
       <div className="container">

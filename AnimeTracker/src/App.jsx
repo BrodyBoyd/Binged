@@ -12,7 +12,8 @@ import MyProfile from './pages/UserPage.jsx'
 import List from './pages/List.jsx'
 import { authClient } from "./auth-client.js"
 import { useNavigate } from "react-router-dom";
-
+import ReviewModal from './components/reviewModal.jsx'
+import Navbar from './components/navbar.jsx'
 
 
 
@@ -32,7 +33,7 @@ function Home({
 }) {
   return (
     <>
-      <header className="header">
+      {/* <header className="header">
         <div className="container">
           <nav className="nav">
             <div className="logo">
@@ -62,7 +63,9 @@ function Home({
             
           </nav>
         </div>
-      </header>
+      </header> */}
+
+      <Navbar />
 
       <section className="hero">
         <div className="container">

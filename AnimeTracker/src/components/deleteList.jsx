@@ -7,10 +7,10 @@ import { authClient } from "../auth-client.js"
 
 import "../pages/MyLists.jsx"
 
-function DeleteList({ onClose }) {
+function DeleteList({ listName, onClose }) {
 
-  const [listName, setListName] = useState('');
   const navigate = useNavigate()
+
 
   const { 
           data: session, 
@@ -26,7 +26,8 @@ function DeleteList({ onClose }) {
       }, [])
   
   const handleClick = async (listName) => {
-    await fetch("/createList", {
+    console.log("Deleting list: " + listName)
+    await fetch("/deleteList", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -36,6 +37,7 @@ function DeleteList({ onClose }) {
       listName: listName,
     }), 
   });
+  console.log("Delete request sent")
   navigate('/')
   window.location.reload(true);
   }

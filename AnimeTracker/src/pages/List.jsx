@@ -3,8 +3,9 @@ import { authClient } from "../auth-client.js"
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from 'react-router-dom';
-import { reverse } from "dns";
 import DeleteList from "../components/deleteList.jsx";
+import ListRatingModal from "../components/listRatingModal";
+import Navbar from '../components/navbar.jsx'
 
 export default function Lists() {
 
@@ -13,15 +14,26 @@ export default function Lists() {
   const [listName, setListName] = useState('')
   const [receivedData, setRecievedData] = useState(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isRatingModalOpen, setIsRatingModalOpen] = useState(false);
+  const [currentShow, setCurrentShow] = useState(null);
 
   const navigate = useNavigate();
 
-  const openRatingModal = () => {
+  const openModal = () => {
     setIsModalOpen(true)
   }
     
-  const closeRatingModal = () => {
+  const closeModal = () => {
     setIsModalOpen(false)
+  }
+  const openRatingModal = (show) => {
+    setCurrentShow(show);
+    setIsRatingModalOpen(true);
+  };
+    
+  const closeRatingModal = () => {
+    setIsRatingModalOpen(false)
+    setCurrentShow(null);
   }
   const signOut = async () => {
     await authClient.signOut();
@@ -53,36 +65,8 @@ export default function Lists() {
 
   return (
     <>
-      <header className="header">
-        <div className="container">
-          <nav className="nav">
-            <div className="logo">
-              <h1>Binged</h1>
-            </div>
-            <div className="nav-links">
-              <Link to="/" className="nav-link">Home</Link>
-              <Link to="/discover" className="nav-link">Discover</Link>
-              <Link to="/MyLists" className="nav-link activeLink" style={{color: 'White'}}>Lists</Link>
-              <Link to="/Reviews" className="nav-link">Reviews</Link>
-            </div>
-            {!session ? ( <div className="auth-buttons">
-              <Link to ="/signin" className="btn-secondary">Sign In</Link>
-              <Link to="/signup" className="btn-primary">Sign up</Link>
-            </div>  ) : (<div class="dropdown">
-              <button class="dropbtn">{session.user.username} 
-                <i class="fa fa-caret-down"></i>
-              </button>
-              <div class="dropdown-content">
-                <Link to="/MyProfile">My Profile</Link>
-                <Link to="/Reviews">Reviews</Link>
-                <Link to="/MyLists">My Lists</Link>
-                <a href="#">Followed Acounts</a>
-                <a href="#" onClick={signOut}>Signout</a>
-              </div>
-            </div>)}
-          </nav>
-        </div>
-      </header>
+      <Navbar signOut={signOut} session={session} />
+      
       <section className="allListsPage">
         <br/>
         <br/>
@@ -93,11 +77,11 @@ export default function Lists() {
         <br/>
         <div className="Lists">
           {receivedData ? (
-          <div className="search-results">
+          <div className="list-results">
             {shows.map((show) => (
               <div className="search-results">
                 <div key={show.id} className="show-item">
-                  <img src={show.image || "/placeholder.svg"} alt={show.title} />
+                  <img src={show.image || "/placeholder.svg"} alt={show.title} onClick={() => openRatingModal(show)} />
                   <div className="show-info">
                     <h3 className="show-title">{show.title}</h3>
                     <div className="show-rating">★ {show.rating}</div>
@@ -110,9 +94,10 @@ export default function Lists() {
         ) : (<p>No Shows in List</p>)}
 
         </div>
-        <button onClick={openRatingModal} className="createListButton btn-danger">Delete List</button>
+        <button onClick={openModal} className="createListButton btn-danger">Delete List</button>
       </section>
-      {isModalOpen && <DeleteList  onClose={closeRatingModal} />}
+      {isModalOpen && <DeleteList listName={listName} onClose={closeModal} />}
+      {isRatingModalOpen && <ListRatingModal show={currentShow} onClose={closeRatingModal} />}
 
       <footer>
         <p>Created by Brody Boyd</p>

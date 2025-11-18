@@ -56,6 +56,11 @@ async function createList(userId, listName) {
   return db.collection('user').updateOne({"_id": new ObjectId(userId)}, {$push: { lists: { name: listName, shows: []}}});
 }
 
+async function deleteList(userId, listName) {
+  const db = await connect();
+  return db.collection('user').updateOne({ _id: new ObjectId(userId)},{ $pull: { lists: { name: listName}}});
+}
+
 async function getClient(){ 
   if (!_client){
     await connect();
@@ -65,6 +70,16 @@ async function getClient(){
 
 async function createReview(userId, review) {
   const db = await connect()
+  review.reviewId = new ObjectId()
+  db.collection('reviews').insertOne(review)
   return db.collection('user').updateOne({"_id": new ObjectId(userId)}, {$push: { reviews: review }})
 }
-export { registerUser, getAccountByEmail, getAccountByUsername, getAccounts, getClient, connect, searchUserById, addToList, createList, createReview }
+
+async function deleteReview(userId, reviewId) {
+  const db = await connect()
+  const reviewObjectId = new ObjectId(reviewId)
+
+  db.collection('reviews').deleteOne({ reviewId: reviewObjectId })
+  return db.collection('user').updateOne({"_id": new ObjectId(userId)}, {$pull: { reviews: { reviewId: reviewObjectId } }})
+}
+export { registerUser, getAccountByEmail, getAccountByUsername, deleteList, getAccounts, deleteReview, getClient, connect, searchUserById, addToList, createList, createReview }

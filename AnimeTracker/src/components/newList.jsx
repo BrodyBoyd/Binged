@@ -26,7 +26,7 @@ function CreateListModal({ onClose }) {
       }, [])
   
   const handleClick = async (listName) => {
-    await fetch("/createList", {
+    await fetch("/CreateList", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
