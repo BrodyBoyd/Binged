@@ -68,11 +68,13 @@ const closeRatingModal = () => {
                     <div>Review: {show.review}</div>
                   </div>
                 </div>
+                
             ))}
           </div>
         ) : (
           <p>No reviews yet!</p>
         )}
+        
 
 
         {isModalOpen && <ReviewModal review={currentShow} onClose={closeRatingModal} />}

@@ -64,7 +64,7 @@ function RatingModal({ show, onClose }) {
             {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((star) => (
               <span
                 key={star}
-                className={`scale-y-50 sm:scale-100 star ${star <= rating ? "active" : ""}`}
+                className={`scale-50 sm:scale-100 star ${star <= rating ? "active" : ""}`}
                 onClick={() => handleStarClick(star)}
               >
                 ★

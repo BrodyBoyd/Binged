@@ -100,7 +100,9 @@ body {
   font-weight: 500;
   transition: color 0.2s;
 }
-
+.profile-top-section {
+  padding-top: 3em;
+}
 .nav-link:hover {
   color: var(--foreground);
 }
@@ -299,7 +301,7 @@ section {
   overflow: hidden;
   transition: transform 0.2s;
   cursor: pointer;
-  border: rgb(255, 255, 255) solid;
+  border: rgb(225, 143, 255) solid;
   height: auto;
   padding: 2em;
 }
@@ -502,6 +504,17 @@ footer {
   gap: 1rem;
   max-width: 100%;
   margin: 0 auto;
+}
+.profile-review-results {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(20vw, 1fr));
+  gap: 1rem;
+  max-width: 100%;
+  margin: 0 auto;
+}
+.reviewProfileCard {
+  width: 45vw;
+  height: auto;
 }
 .list-results {
   display: grid;
@@ -895,6 +908,11 @@ html {
     0rem 152px 43px rgba(10, 60, 255, 0);
 }
 
+.active-link {
+      color: blue; /* Or any other highlighting style */
+      font-weight: bold;
+      text-decoration: underline;
+    }
 /* Show page */
 
 .show-image {

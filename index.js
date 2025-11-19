@@ -90,14 +90,14 @@ app.get('/getAccounts', async (req,res) => {
   }
 });
 
-app.get("/:email",  async (req, res) => {
-  const userEmail = req.params.email
-  const user = await getAccountByEmail(userEmail)
+app.get("/api/user/:email", async (req, res) => {
+  const userEmail = req.params.email;
+  const user = await getAccountByEmail(userEmail);
   if (user) {
-  res.status(200).json(user.username)
-  return user;
+    res.status(200).json(user.username);
+    return user;
   } else {
-    res.status(400).json({message: "error"})
+    res.status(400).json({ message: "error" });
   }
 });
 
@@ -182,7 +182,7 @@ app.post("/deleteReview", authMiddleware, async (req,res) => {
 })
 
 // Serve index.html for any routes that don't match API endpoints
-app.get(['/signin', '/signup', '/discover', '/', '/show/:id'], (req, res) => {
+app.get(['/signin', '/signup', '/discover','/', '/MyLists', '/Reviews', '/MyProfile', '/List',  '/show/:id'], (req, res) => {
   res.sendFile(join(__dirname, 'AnimeTracker/dist/index.html'));
 });
 

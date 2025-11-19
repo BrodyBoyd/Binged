@@ -1,12 +1,13 @@
 "use client";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { authClient } from "../auth-client.js"
 import { useNavigate } from "react-router-dom";
 
 function Navbar() {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
 const { 
         data: session, 
         isPending, //loading state
@@ -17,6 +18,10 @@ const {
     const signout = async () => {
     await authClient.signOut();
     navigate("/")
+  }
+
+  const isActive = (path) => {
+    return location.pathname === path ? "text-white font-bold bg-purple-700/10 px-3 py-2 rounded-xl text-2xl" : " text-xl text-gray-700 dark:text-gray-200";
   }
 
   return (
@@ -31,10 +36,10 @@ const {
           {/* Center: Nav Links (hidden on mobile) */}
           <nav className="hidden md:flex flex-1 justify-between max-w-5/12 space-x-8 text-base md:text-lg ">
             
-            <Link to="/" className="text-gray-700 dark:text-gray-200 hover:text-teal-600 transition nav-link">Home</Link>
-            <Link to="/discover" className="text-gray-700 dark:text-gray-200 hover:text-teal-600 transition nav-link">Discover</Link>
-            <Link to="/MyLists" className="text-gray-700 dark:text-gray-200 hover:text-teal-600 transition nav-link">Lists</Link>
-            <Link to="/Reviews" className="text-gray-700 dark:text-gray-200 hover:text-teal-600 transition nav-link">Reviews</Link>
+            <Link to="/" className={`${isActive("/")} hover:text-gray-300 transition `}>Home</Link>
+            <Link to="/discover" className={`${isActive("/discover")} hover:text-gray-300 transition `}>Discover</Link>
+            <Link to="/MyLists" className={`${isActive("/MyLists")} hover:text-gray-300 transition `}>Lists</Link>
+            <Link to="/Reviews" className={`${isActive("/Reviews")} hover:text-gray-300 transition `}>Reviews</Link>
           </nav>
 
           {/* Right: Auth Buttons (hidden on mobile) */}
@@ -69,10 +74,10 @@ const {
         {/* Mobile Menu */}
         {open && (
           <div className="md:hidden mt-4 space-y-2 text-base">
-            <Link to="/" className="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded">Home</Link>
-            <Link to="/discover" className="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded">Discover</Link>
-            <Link to="/MyLists" className="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded">Lists</Link>
-            <Link to="/Reviews" className="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded">Reviews</Link>
+            <Link to="/" className={`block px-4 py-2 ${isActive("/")} hover:bg-gray-100 dark:hover:bg-gray-700 rounded`}>Home</Link>
+            <Link to="/discover" className={`block px-4 py-2 ${isActive("/discover")} hover:bg-gray-100 dark:hover:bg-gray-700 rounded`}>Discover</Link>
+            <Link to="/MyLists" className={`block px-4 py-2 ${isActive("/MyLists")} hover:bg-gray-100 dark:hover:bg-gray-700 rounded`}>Lists</Link>
+            <Link to="/Reviews" className={`block px-4 py-2 ${isActive("/Reviews")} hover:bg-gray-100 dark:hover:bg-gray-700 rounded`}>Reviews</Link>
             {!session ? (
             <div className="mt-4 flex flex-col gap-2">      
                 <Link to ="/signin" className="px-4 py-2 text-left text-gray-700 dark:text-gray-200 hover:text-purple-600">Sign In</Link>
