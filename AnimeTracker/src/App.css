@@ -41,17 +41,17 @@ body {
 }
 
 /* Utility Classes */
-.min-h-screen {
+/* .min-h-screen {
   min-height: 100vh;
-}
+} */
 
-.bg-background {
+/* .bg-background {
   background-color: var(--background);
 }
 
 .text-foreground {
   color: var(--foreground);
-}
+} */
 
 .container {
   max-width: 1200px;
@@ -318,6 +318,16 @@ section {
   border: rgb(252, 217, 255) solid;
   padding: 1.5em;
 }
+.review-results{
+  background: var(--card);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: transform 0.2s;
+  cursor: pointer;
+  border: rgb(252, 217, 255) solid;
+  padding: 1.5em;
+  max-width: 90%;
+}
 .show-item:hover {
   transform: translateY(-2px);
 }
@@ -515,6 +525,14 @@ footer {
 .reviewProfileCard {
   width: 45vw;
   height: auto;
+}
+.editAccount {
+  max-width: 80vw;
+  margin: 0 auto;
+  background: var(--card);
+  padding: 2rem;
+  border-radius: var(--radius);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 .list-results {
   display: grid;

@@ -14,6 +14,7 @@ import { authClient } from "./auth-client.js"
 import { useNavigate } from "react-router-dom";
 import ReviewModal from './components/reviewModal.jsx'
 import Navbar from './components/navbar.jsx'
+import EditUserProfile from './pages/editProfile.jsx'
 
 
 
@@ -287,6 +288,7 @@ function App() {
       <Route path="/signin" element={<Signin />} />
       <Route path="/MyProfile" element={<MyProfile />} />
       <Route path='/List' element={<List />} />
+      <Route path='/MyProfile/edit' element={<EditUserProfile />} />
     </Routes>
   )
 }

@@ -65,15 +65,15 @@ export default function Lists() {
         <br/>
         <div className="Lists">
           {Array.isArray(lists) && lists.length > 0 ? (
+            <div className="flex flex-col items-center w-full">
           <div className="Lists">
             {lists.map((list) => (
-              <div className="list-results">
-              <div key={list.id} className="show-item"  onClick={() => {handleClick(list); }}>
+              <div key={list.id} className="list-results" onClick={() => {handleClick(list); }}>
                 <h3 className="List-title">{list.name}</h3>
-                </div>
               </div>
             ))}
-            <button onClick={openRatingModal} className="createListButton btn-primary">Create New List</button>
+          </div>
+          <button onClick={openRatingModal} className="createListButton btn-primary">Create New List</button>
           </div>
           
         ) : (<p>Not Signed in</p>)}

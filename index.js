@@ -9,7 +9,7 @@ import debug from 'debug';
 const debugServer = debug('app:Server');
 import bcrypt from 'bcrypt';
 import { toNodeHandler } from "better-auth/node";
-import { registerUser, deleteList, getAccountByEmail, getAccountByUsername, getAccounts, searchUserById, addToList, createList, createReview, deleteReview } from './database.js'
+import { registerUser, updateUser, deleteList, getAccountByEmail, getAccountByUsername, getAccounts, searchUserById, addToList, createList, createReview, deleteReview } from './database.js'
 import { validate } from './middleware/joiValidator.js';
 import { registerSchema } from './validation/schema.js'
 import auth from './auth.js'
@@ -162,6 +162,23 @@ app.post("/createReview", authMiddleware, async (req,res) => {
 }
 })
 
+app.patch("/UpdateUser", authMiddleware, async (req,res) => {
+  try {
+    const userId = req.user.id;
+    const updatedData = req.body;
+    debugServer(updatedData)
+    const result = await updateUser(userId, updatedData)
+    if (result) {
+      res.status(200).json({ success: true, data: result });
+    } else {
+      res.status(400).json({error: "unable to update user"})
+    }
+} catch (err){
+  console.error(err)
+  res.status(500).json({error: "Server Error"})
+}
+})
+
 app.post("/deleteReview", authMiddleware, async (req,res) => {
   try {
     const userId = req.user.id;
@@ -182,7 +199,7 @@ app.post("/deleteReview", authMiddleware, async (req,res) => {
 })
 
 // Serve index.html for any routes that don't match API endpoints
-app.get(['/signin', '/signup', '/discover','/', '/MyLists', '/Reviews', '/MyProfile', '/List',  '/show/:id'], (req, res) => {
+app.get(['/signin', '/signup', '/discover','/', '/MyLists', '/Reviews', '/MyProfile', '/List',  '/show/:id', '/MyProfile/edit'], (req, res) => {
   res.sendFile(join(__dirname, 'AnimeTracker/dist/index.html'));
 });
 

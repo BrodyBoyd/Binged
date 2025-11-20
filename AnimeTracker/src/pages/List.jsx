@@ -16,6 +16,7 @@ export default function Lists() {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isRatingModalOpen, setIsRatingModalOpen] = useState(false);
   const [currentShow, setCurrentShow] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const navigate = useNavigate();
 
@@ -60,17 +61,22 @@ export default function Lists() {
       setListName(listName)
       setShows(shows)
       }
-    }, [])
+      if (isPending === false){
+        setIsLoading(false);
+      }
+    }, [isPending, session, location.state])
 
 
   return (
     <>
       <Navbar signOut={signOut} session={session} />
       
-      <section className="allListsPage">
+      <section className="allListsPage flex flex-col items-center">
         <br/>
         <br/>
-        <p className="listPageTitle">{listName}</p>
+       {!isLoading ? 
+       <>
+       <p className="listPageTitle">{listName}</p>
         <br/>
         <br/>
         <br/>
@@ -78,23 +84,24 @@ export default function Lists() {
         <div className="Lists">
           {receivedData ? (
           <div className="list-results">
-            {shows.map((show) => (
-              <div className="search-results">
-                <div key={show.id} className="show-item">
-                  <img src={show.image || "/placeholder.svg"} alt={show.title} onClick={() => openRatingModal(show)} />
+            <div className="search-results">
+              {shows.map((show) => (
+                <div key={show.id} className="show-item" onClick={() => openRatingModal(show)}>
+                  <img src={show.image || "/placeholder.svg"} alt={show.title} />
                   <div className="show-info">
                     <h3 className="show-title">{show.title}</h3>
                     <div className="show-rating">★ {show.rating}</div>
                     {show.episodes != null && ( <div className="show-episodes">{show.episodes} episodes</div> )}
                   </div>
                 </div>
-                </div>
               ))}
+            </div>
           </div>
         ) : (<p>No Shows in List</p>)}
 
         </div>
         <button onClick={openModal} className="createListButton btn-danger">Delete List</button>
+        </> : <p>Loading...</p>}
       </section>
       {isModalOpen && <DeleteList listName={listName} onClose={closeModal} />}
       {isRatingModalOpen && <ListRatingModal show={currentShow} onClose={closeRatingModal} />}

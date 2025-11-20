@@ -49,7 +49,7 @@ const closeRatingModal = () => {
     <>
       <Navbar />
 
-      <section className="allReviewsPage">
+      <section className="allReviewsPage max-w-screen">
         <br/>
         <br/>
         <p className="listPageTitle">Your Reviews</p>
@@ -68,13 +68,11 @@ const closeRatingModal = () => {
                     <div>Review: {show.review}</div>
                   </div>
                 </div>
-                
             ))}
           </div>
         ) : (
           <p>No reviews yet!</p>
         )}
-        
 
 
         {isModalOpen && <ReviewModal review={currentShow} onClose={closeRatingModal} />}

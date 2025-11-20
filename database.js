@@ -82,4 +82,11 @@ async function deleteReview(userId, reviewId) {
   db.collection('reviews').deleteOne({ reviewId: reviewObjectId })
   return db.collection('user').updateOne({"_id": new ObjectId(userId)}, {$pull: { reviews: { reviewId: reviewObjectId } }})
 }
-export { registerUser, getAccountByEmail, getAccountByUsername, deleteList, getAccounts, deleteReview, getClient, connect, searchUserById, addToList, createList, createReview }
+
+async function updateUser(userId, updatedData) {
+  const db = await connect();
+  debugDb(updatedData);
+  return db.collection('user').updateOne({"_id": new ObjectId(userId)}, {$set: updatedData});
+}
+
+export { registerUser,updateUser, getAccountByEmail, getAccountByUsername, deleteList, getAccounts, deleteReview, getClient, connect, searchUserById, addToList, createList, createReview }
