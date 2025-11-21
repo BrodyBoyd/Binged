@@ -2,14 +2,8 @@ Add a whole way so that when a user creates a review it sends it to its own data
 
 find a way so that when someone clicks on a review a modal pops up that includes text, rating, username, and date reviwed, then make it so that the username is a clickable feature and you can go view that users profile.  use backend route to pull all users information and make their profile data, create new page for that and keep "MyProfile" page the same
 
-make it so that clicking "Binged" on the top left brings you back to home page"
-
 add user reviews on show pages
 
 MAKE MOBILE RESPONSIVE:
 showpage
-list pages (needs lil work, too wide)
-discover (same^)
-NAVBAR NAVBAR NAVBAR NAVBAR NAVBAR
-little work on user page (too wide also just not formatted perfectly)
 

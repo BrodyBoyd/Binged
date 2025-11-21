@@ -22,10 +22,10 @@ function ReviewModal({ review, onClose }) {
   return (
     <>
     <div className="modal active p-2">
-      <div className="review-modal-content ">
+      <div className=" ">
        <div>
-            <div className="flex max-w-sm w-full bg-white shadow-md rounded-lg overflow-hidden mx-auto">
-                <div className="overflow-hidden rounded-xl relative transform  transition ease-in-out duration-500 shadow-lg hover:shadow-2xl movie-item text-white movie-card">
+            <div className="flex w-full bg-white shadow-md rounded-lg overflow-hidden mx-auto">
+                <div className="review-modal-content overflow-hidden rounded-xl relative transform  transition ease-in-out duration-500 shadow-lg hover:shadow-2xl movie-item text-white movie-card">
                     <div className="absolute inset-0 z-10 transition duration-300 ease-in-out bg-gradient-to-t from-black via-gray-900 to-transparent"></div>
                     <div className="relative cursor-pointer group z-10 px-10 pt-10 space-y-6 movie_info" data-lity="">
                         <div className="poster__info align-self-end w-full">

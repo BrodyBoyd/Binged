@@ -21,6 +21,12 @@ export default function  MyProfile() {
     console.log(userData)
     navigate('/MyProfile/edit', { state: { data: userData } });
   };
+
+  const handleListClick = (list) => {
+    console.log(list)
+    const dataToSend = { list };
+    navigate('/List', { state: { data: dataToSend } });
+  };
   
   const { 
           data: session, 
@@ -114,9 +120,9 @@ export default function  MyProfile() {
                       </div>
                       <div class="w-full lg:w-4/12 px-4 lg:order-3 lg:text-right lg:self-center">
                         <div class="py-6 px-3 mt-32 sm:mt-0">
-                          <div onClick={() => handleClick(userData)} class="bg-pink-500 active:bg-pink-600 uppercase text-white font-bold hover:shadow-md shadow text-xs px-2 py-4 rounded outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150 w-2/12" type="button">
+                          <button onClick={() => handleClick(userData)} class="bg-pink-500 active:bg-pink-600 uppercase text-white font-bold hover:shadow-md shadow text-xs px-2 py-4 rounded outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150 w-2/12" type="button">
                             Edit Profile
-                          </div>
+                          </button>
                         </div>
                       </div>
                       <div class="w-full lg:w-4/12 px-4 lg:order-1 ">
@@ -150,7 +156,7 @@ export default function  MyProfile() {
                               {Array.isArray(lists) && lists.length > 0 ? (
                                 <div className="search-results">
                                   {lists.map((list) => (
-                                    <div key={list.id} className="show-item" onClick={() => {handleClick(list); }}>
+                                    <div key={list.id} className="show-item" onClick={() => {handleListClick(list); }}>
                                       <h3>{list.name}</h3>
                                     </div>
                                   ))}

@@ -317,6 +317,21 @@ section {
   cursor: pointer;
   border: rgb(252, 217, 255) solid;
   padding: 1.5em;
+  
+}
+.list-shows {
+  background: var(--card);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: transform 0.2s;
+  cursor: pointer;
+  border: rgb(252, 217, 255) solid;
+  padding: 1.5em;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin: 0 auto;
+  width: 80vw;
 }
 .review-results{
   background: var(--card);
@@ -668,6 +683,9 @@ textarea {
   font-weight: 700;
   color: var(--primary);
 }
+.review-modal-content {
+
+}
 /* Responsive Design */
 @media (max-width: 768px) {
   .nav {
@@ -724,6 +742,13 @@ textarea {
 
   .stats-grid {
     grid-template-columns: 1fr;
+  }
+  .search-results {
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  }
+  .list-results {
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  
   }
 }
 

@@ -60,6 +60,7 @@ export default function Lists() {
       setRecievedData(receivedData)
       setListName(listName)
       setShows(shows)
+      console.log(shows[1])
       }
       if (isPending === false){
         setIsLoading(false);
@@ -83,7 +84,7 @@ export default function Lists() {
         <br/>
         <div className="Lists">
           {receivedData ? (
-          <div className="list-results">
+          <div className="list-shows ">
             <div className="search-results">
               {shows.map((show) => (
                 <div key={show.id} className="show-item" onClick={() => openRatingModal(show)}>
